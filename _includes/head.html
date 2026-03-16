@@ -1,15 +1,56 @@
 <head>
+  {% assign page_title = page.social_title | default: page.title | default: site.title %}
+  {% assign page_description = page.social_description | default: page.description | default: site.description %}
+  {% assign canonical_url = page.url | replace: 'index.html', '' | absolute_url %}
+  {% assign favicon_svg_path = '/assets/images/plenty-logo.svg' %}
+  {% assign favicon_png_path = '/assets/images/plenty-logo.png' %}
+  {% assign default_social_image = '/assets/images/plenty-og.png' %}
+  {% assign social_image_path = page.social_image | default: site.social_image | default: default_social_image %}
+  {% assign social_image_width = page.social_image_width | default: site.social_image_width %}
+  {% assign social_image_height = page.social_image_height | default: site.social_image_height %}
+  {% if social_image_path contains '://' %}
+    {% assign social_image_url = social_image_path %}
+  {% else %}
+    {% assign social_image_url = social_image_path | absolute_url %}
+  {% endif %}
+  {% assign social_image_alt = page.social_image_alt | default: site.social_image_alt | default: page_title %}
+  {% assign twitter_card = page.twitter_card | default: site.twitter_card | default: 'summary_large_image' %}
+  {% assign og_type = page.og_type | default: 'website' %}
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ page.title | default: site.title }}</title>
-  <meta name="description" content="{{ page.description | default: site.description }}">
-  {% assign logo_path = '/assets/images/plenty-logo.svg' %}
-  <link rel="icon" type="image/svg+xml" href="{{ logo_path | relative_url }}">
-  <link rel="shortcut icon" href="{{ logo_path | relative_url }}">
-  <meta property="og:image" content="{{ logo_path | absolute_url }}">
-  <meta name="twitter:image" content="{{ logo_path | absolute_url }}">
-  <meta name="twitter:card" content="summary_large_image">
+  <title>{{ page_title }}</title>
+  <meta name="description" content="{{ page_description }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+  <link rel="icon" type="image/svg+xml" href="{{ favicon_svg_path | relative_url }}">
+  <link rel="icon" type="image/png" sizes="512x512" href="{{ favicon_png_path | relative_url }}">
+  <link rel="apple-touch-icon" href="{{ favicon_png_path | relative_url }}">
+  <link rel="shortcut icon" href="{{ favicon_svg_path | relative_url }}">
+
+  <meta property="og:locale" content="{{ site.og_locale | default: 'en_US' }}">
+  <meta property="og:type" content="{{ og_type }}">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ page_description }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:site_name" content="{{ site.title }}">
+  <meta property="og:image" content="{{ social_image_url }}">
+  {% if social_image_width %}
+    <meta property="og:image:width" content="{{ social_image_width }}">
+  {% endif %}
+  {% if social_image_height %}
+    <meta property="og:image:height" content="{{ social_image_height }}">
+  {% endif %}
+  <meta property="og:image:alt" content="{{ social_image_alt }}">
+
+  <meta name="twitter:card" content="{{ twitter_card }}">
+  {% if site.twitter_site %}
+    <meta name="twitter:site" content="{{ site.twitter_site }}">
+  {% endif %}
+  <meta name="twitter:title" content="{{ page_title }}">
+  <meta name="twitter:description" content="{{ page_description }}">
+  <meta name="twitter:image" content="{{ social_image_url }}">
+  <meta name="twitter:image:alt" content="{{ social_image_alt }}">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@400;700&family=Lora:wght@400;500;700&display=swap" rel="stylesheet">

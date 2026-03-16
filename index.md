@@ -2,6 +2,8 @@
 layout: home
 title: Plenty
 description: Plenty is a company by Carmine Paolino.
+social_title: "Plenty - Chat with Work, RubyLLM, Workshops, Advisory"
+social_description: "Plenty focuses on Chat with Work, RubyLLM, workshops, and founder advisory."
 company_name: Plenty
 connector_word: is
 animation_hold_ms: 3000

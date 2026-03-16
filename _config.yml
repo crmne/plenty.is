@@ -2,6 +2,13 @@ title: Plenty
 description: "Plenty is a company by Carmine Paolino."
 url: "https://plenty.is"
 baseurl: ""
+og_locale: "en_US"
+twitter_site: "@paolino"
+twitter_card: "summary_large_image"
+social_image: "/assets/images/plenty-og.png"
+social_image_width: 1200
+social_image_height: 630
+social_image_alt: "Plenty focuses on Chat with Work, RubyLLM, workshops, and founder advisory."
 markdown: kramdown
 
 exclude:

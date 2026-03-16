@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Plenty Open Graph Card</title>
+  <desc id="desc">Plenty focuses on Chat with Work, RubyLLM, workshops, and founder advisory.</desc>
+  <defs>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffe66a"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#000"/>
+  <text x="90" y="145" fill="#ffffff" font-family="Lora, Georgia, 'Times New Roman', serif" font-size="116" font-weight="700">Plenty</text>
+  <text x="468" y="145" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="96" font-weight="700">is</text>
+  <rect x="92" y="198" width="900" height="4" fill="url(#line)"/>
+
+  <text x="96" y="274" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="52" font-weight="700">Chat with Work</text>
+  <text x="96" y="334" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="52" font-weight="700">RubyLLM</text>
+  <text x="96" y="394" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="52" font-weight="700">Workshops</text>
+  <text x="96" y="454" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="52" font-weight="700">Advisory</text>
+
+  <text x="96" y="565" fill="#ffe66a" font-family="IBM Plex Mono, monospace" font-size="28">plenty.is</text>
+</svg>
