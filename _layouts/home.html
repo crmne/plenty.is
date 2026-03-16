@@ -1,0 +1,143 @@
+---
+layout: default
+---
+
+{% assign projects = page.projects %}
+<main class="hero" aria-label="Plenty landing page">
+  <h1 class="hero__line" aria-live="polite">
+    <span class="hero__prefix">
+      <span class="hero__brand">{{ page.company_name | default: "Plenty" }}</span>
+      <span class="hero__is">{{ page.connector_word | default: "is" }}</span>
+    </span>
+    <span class="hero__dynamic" data-rotator>
+      <span class="hero__sizer" data-rotator-sizer aria-hidden="true"></span>
+      {% for project in projects %}
+        <span class="hero__word{% if forloop.first %} is-active{% endif %}" data-rotating-word>
+          <a class="hero__word-link" href="{{ project.link }}">{{ project.title }}</a>
+        </span>
+      {% endfor %}
+    </span>
+  </h1>
+</main>
+
+<footer class="footer">
+  <p>
+    &copy; {{ "now" | date: "%Y" }} Plenty. A company by
+    <a class="footer__link" href="https://paolino.me">Carmine Paolino</a>.
+    <a class="footer__link" href="/imprint/">Imprint</a>
+  </p>
+</footer>
+
+<style>
+  :root {
+    --animation-duration: {{ page.animation_transition_ms | default: 1500 }}ms;
+  }
+</style>
+
+<script>
+  (() => {
+    const words = Array.from(document.querySelectorAll("[data-rotating-word]"));
+    const slot = document.querySelector("[data-rotator]");
+    const sizer = document.querySelector("[data-rotator-sizer]");
+
+    if (!slot || words.length === 0) {
+      return;
+    }
+
+    const syncSizer = () => {
+      if (!sizer) {
+        return;
+      }
+
+      let widestWord = words[0];
+
+      for (const word of words) {
+        if (word.offsetWidth > widestWord.offsetWidth) {
+          widestWord = word;
+        }
+      }
+
+      sizer.textContent = widestWord.textContent.trim();
+    };
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(syncSizer);
+    } else {
+      syncSizer();
+    }
+
+    window.addEventListener("resize", syncSizer);
+
+    if (words.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    let activeIndex = Math.max(words.findIndex((word) => word.classList.contains("is-active")), 0);
+    const holdMs = {{ page.animation_hold_ms | default: 3000 }};
+    const transitionMs = {{ page.animation_transition_ms | default: 1500 }};
+    let cycleTimer = null;
+    let cleanupTimer = null;
+
+    const clearTimers = () => {
+      if (cycleTimer !== null) {
+        window.clearTimeout(cycleTimer);
+        cycleTimer = null;
+      }
+
+      if (cleanupTimer !== null) {
+        window.clearTimeout(cleanupTimer);
+        cleanupTimer = null;
+      }
+    };
+
+    const normalize = (index) => {
+      words.forEach((word, currentIndex) => {
+        word.classList.remove("is-exit");
+        word.classList.toggle("is-active", currentIndex === index);
+      });
+
+      activeIndex = index;
+    };
+
+    const scheduleNext = () => {
+      cycleTimer = window.setTimeout(cycle, holdMs);
+    };
+
+    const cycle = () => {
+      const current = words[activeIndex];
+      const nextIndex = (activeIndex + 1) % words.length;
+      const next = words[nextIndex];
+
+      current.classList.remove("is-active");
+      current.classList.add("is-exit");
+      next.classList.remove("is-exit");
+
+      requestAnimationFrame(() => {
+        next.classList.add("is-active");
+      });
+
+      cleanupTimer = window.setTimeout(() => {
+        current.classList.remove("is-exit");
+        cleanupTimer = null;
+      }, transitionMs);
+
+      activeIndex = nextIndex;
+      scheduleNext();
+    };
+
+    document.addEventListener("visibilitychange", () => {
+      clearTimers();
+
+      const visibleIndex = words.findIndex((word) => word.classList.contains("is-active"));
+      normalize(visibleIndex >= 0 ? visibleIndex : activeIndex);
+
+      if (!document.hidden) {
+        scheduleNext();
+      }
+    });
+
+    if (!document.hidden) {
+      scheduleNext();
+    }
+  })();
+</script>

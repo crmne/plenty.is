@@ -1,0 +1,25 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title | default: site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  {% assign logo_path = '/assets/images/plenty-logo.svg' %}
+  <link rel="icon" type="image/svg+xml" href="{{ logo_path | relative_url }}">
+  <link rel="shortcut icon" href="{{ logo_path | relative_url }}">
+  <meta property="og:image" content="{{ logo_path | absolute_url }}">
+  <meta name="twitter:image" content="{{ logo_path | absolute_url }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@400;700&family=Lora:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://stats.paolino.me/js/pa-Bb-bGRVMf3v5pGNJrn63C.js"></script>
+  <script>
+    window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments); };
+    plausible.init = plausible.init || function (i) { plausible.o = i || {}; };
+    plausible.init();
+  </script>
+</head>

@@ -1,0 +1,15 @@
+---
+layout: default
+---
+
+<main class="legal" aria-label="{{ page.title | default: 'Page' }}">
+  {{ content }}
+</main>
+
+<footer class="footer">
+  <p>
+    &copy; {{ "now" | date: "%Y" }} Plenty. A company by
+    <a class="footer__link" href="https://paolino.me">Carmine Paolino</a>.
+    <a class="footer__link" href="/">Home</a>
+  </p>
+</footer>
