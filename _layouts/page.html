@@ -11,5 +11,8 @@ layout: default
     &copy; {{ "now" | date: "%Y" }} Plenty. A company by
     <a class="footer__link" href="https://paolino.me">Carmine Paolino</a>.
     <a class="footer__link" href="/">Home</a>
+    {% unless page.url == "/imprint/" %}
+      <a class="footer__link" href="/imprint/">Imprint</a>
+    {% endunless %}
   </p>
 </footer>

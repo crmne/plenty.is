@@ -1,7 +1,8 @@
 title: Plenty
-description: "Plenty is a company by Carmine Paolino."
+description: "Plenty is Carmine Paolino's company for AI-native work tools, RubyLLM, workshops, and founder advisory."
 url: "https://plenty.is"
 baseurl: ""
+lang: en
 og_locale: "en_US"
 twitter_site: "@paolino"
 twitter_card: "summary_large_image"
@@ -9,7 +10,132 @@ social_image: "/assets/images/plenty-og.png"
 social_image_width: 1200
 social_image_height: 630
 social_image_alt: "Plenty focuses on Chat with Work, RubyLLM, workshops, and founder advisory."
+logo: "/assets/images/plenty-logo.png"
 markdown: kramdown
+
+plugins:
+  - jekyll-ai-visible-content
+  - jekyll-sitemap
+
+author:
+  name: "Plenty"
+  url: "https://plenty.is/about/"
+
+ai_visible_content:
+  enabled: true
+  entity:
+    type: Organization
+    id_slug: plenty
+    name: "Plenty"
+    description: "Carmine Paolino's company for AI-native work tools, RubyLLM, hands-on workshops, and founder advisory."
+    image: "/assets/images/plenty-logo.png"
+    location:
+      locality: "Berlin"
+      country: "DE"
+    knows_about:
+      - "AI-native work tools"
+      - "RubyLLM"
+      - "Ruby on Rails"
+      - "LLM applications"
+      - "Developer workshops"
+      - "Founder advisory"
+      - "Open source Ruby tools"
+    same_as:
+      - "https://paolino.me"
+      - "https://x.com/paolino"
+      - "https://www.rubyevents.org/profiles/crmne"
+  json_ld:
+    auto_inject: true
+    include_website_schema: false
+    include_breadcrumbs: true
+    include_blog_posting: true
+    include_faq: true
+    include_how_to: true
+    article_body: excerpt
+    compact: false
+  crawlers:
+    allow_gptbot: true
+    allow_perplexitybot: true
+    allow_claudebot: true
+    allow_googlebot: true
+    allow_bingbot: true
+    generate_robots_txt: true
+  llms_txt:
+    enabled: true
+    title: "Plenty"
+    description: "Plenty builds and supports AI-native tools and RubyLLM work led by Carmine Paolino."
+    include_full_text: true
+    sections:
+      - heading: "What Plenty Does"
+        content: "Plenty builds AI-native work tools, maintains RubyLLM-related projects, runs practical workshops, and advises founders building software products."
+      - heading: "Primary Projects"
+        content: |
+          - Chat with Work: https://chatwithwork.com
+          - RubyLLM: https://rubyllm.com
+          - RubyLLM Workshops: https://github.com/crmne/ruby_llm-workshop
+          - Founder Advisory: mailto:carmine@plenty.is
+          - Cluster Headache Tracker: https://clusterheadachetracker.com
+          - hyprmoncfg: https://hyprmoncfg.dev
+          - Jekyll VitePress: https://jekyll-vitepress.dev
+          - Kamal Backup: https://kamal-backup.dev
+  linking:
+    enable_entity_links: true
+    apply_to_metadata: false
+    max_links_per_entity_per_post: 1
+    enable_related_posts: true
+    related_posts_limit: 3
+    entity_definitions:
+      ai-native-work-tools:
+        name: "AI-native work tools"
+        url: "https://chatwithwork.com"
+        description: "Tools that use AI to work with business context and documents."
+      rubyllm:
+        name: "RubyLLM"
+        url: "https://rubyllm.com"
+        description: "Ruby tooling for building with large language models."
+      ruby-on-rails:
+        name: "Ruby on Rails"
+        url: "https://rubyonrails.org"
+        description: "The Ruby web framework used across much of Plenty's work."
+      llm-applications:
+        name: "LLM applications"
+        url: "https://rubyllm.com"
+        description: "Software products built around large language models."
+      developer-workshops:
+        name: "Developer workshops"
+        url: "https://github.com/crmne/ruby_llm-workshop"
+        description: "Hands-on RubyLLM training and workshop material."
+      founder-advisory:
+        name: "Founder advisory"
+        url: "mailto:carmine@plenty.is"
+        description: "Advisory for founders building software products."
+      open-source-ruby-tools:
+        name: "Open source Ruby tools"
+        url: "https://github.com/crmne"
+        description: "Open source Ruby projects and developer tooling."
+  ai_resources:
+    enabled: true
+    formats:
+      - json
+      - yaml
+      - markdown
+    max_links_per_page: 5
+    auto_inject: false
+    inject_instruction_block: false
+    base_path: "/ai"
+  validation:
+    warn_name_inconsistency: true
+    warn_missing_same_as: true
+    warn_missing_dates: true
+    warn_orphan_pages: true
+    warn_missing_descriptions: true
+    fail_build_on_error: false
+    exclude_paths:
+      - "/imprint/"
+      - "imprint.md"
+    content_only: true
+    verbose: false
+    max_examples: 3
 
 exclude:
   - README.md

@@ -22,6 +22,9 @@
   <title>{{ page_title }}</title>
   <meta name="description" content="{{ page_description }}">
   <link rel="canonical" href="{{ canonical_url }}">
+  {% unless page.url == "/about/" %}
+    <link rel="about" href="{{ '/about/' | absolute_url }}">
+  {% endunless %}
   <link rel="icon" type="image/svg+xml" href="{{ favicon_svg_path | relative_url }}">
   <link rel="icon" type="image/png" sizes="512x512" href="{{ favicon_png_path | relative_url }}">
   <link rel="apple-touch-icon" href="{{ favicon_png_path | relative_url }}">
@@ -63,4 +66,35 @@
     plausible.init = plausible.init || function (i) { plausible.o = i || {}; };
     plausible.init();
   </script>
+
+  {% if page.url == "/" %}
+    {% assign entity = site.ai_visible_content.entity %}
+    {% assign entity_image_path = entity.image | default: site.logo %}
+    {% if entity_image_path contains '://' %}
+      {% assign entity_image_url = entity_image_path %}
+    {% else %}
+      {% assign entity_image_url = entity_image_path | absolute_url %}
+    {% endif %}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": {{ entity.type | default: "Organization" | jsonify }},
+        "@id": {{ site.url | append: "/#" | append: entity.id_slug | jsonify }},
+        "name": {{ entity.name | default: site.title | jsonify }},
+        "url": {{ site.url | jsonify }},
+        "logo": {
+          "@type": "ImageObject",
+          "url": {{ entity_image_url | jsonify }}
+        },
+        "description": {{ entity.description | default: site.description | jsonify }},
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": {{ entity.location.locality | jsonify }},
+          "addressCountry": {{ entity.location.country | jsonify }}
+        },
+        "sameAs": {{ entity.same_as | jsonify }}
+      }
+    </script>
+  {% endif %}
+  {% ai_resource_links %}
 </head>
