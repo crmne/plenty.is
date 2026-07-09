@@ -1,5 +1,5 @@
 title: Plenty
-description: "Plenty is Carmine Paolino's company for AI-native work tools, RubyLLM, workshops, and founder advisory."
+description: "Plenty is Carmine Paolino's company for AI-native work tools, RubyLLM, ArchSpec, AI and Ruby consulting, and workshops."
 url: "https://plenty.is"
 baseurl: ""
 lang: en
@@ -9,7 +9,7 @@ twitter_card: "summary_large_image"
 social_image: "/assets/images/plenty-og.png"
 social_image_width: 1200
 social_image_height: 630
-social_image_alt: "Plenty focuses on Chat with Work, RubyLLM, workshops, and founder advisory."
+social_image_alt: "Plenty focuses on Chat with Work, RubyLLM, ArchSpec, AI and Ruby consulting, and workshops."
 logo: "/assets/images/plenty-logo.png"
 markdown: kramdown
 
@@ -27,7 +27,7 @@ ai_visible_content:
     type: Organization
     id_slug: plenty
     name: "Plenty"
-    description: "Carmine Paolino's company for AI-native work tools, RubyLLM, hands-on workshops, and founder advisory."
+    description: "Carmine Paolino's company for AI-native work tools, RubyLLM, ArchSpec, AI and Ruby consulting, and hands-on workshops."
     image: "/assets/images/plenty-logo.png"
     location:
       locality: "Berlin"
@@ -35,10 +35,11 @@ ai_visible_content:
     knows_about:
       - "AI-native work tools"
       - "RubyLLM"
+      - "Architecture linting"
+      - "AI and Ruby consulting"
       - "Ruby on Rails"
       - "LLM applications"
       - "Developer workshops"
-      - "Founder advisory"
       - "Open source Ruby tools"
     same_as:
       - "https://paolino.me"
@@ -63,17 +64,18 @@ ai_visible_content:
   llms_txt:
     enabled: true
     title: "Plenty"
-    description: "Plenty builds and supports AI-native tools and RubyLLM work led by Carmine Paolino."
+    description: "Plenty builds and supports AI-native tools, RubyLLM, and ArchSpec work led by Carmine Paolino."
     include_full_text: true
     sections:
       - heading: "What Plenty Does"
-        content: "Plenty builds AI-native work tools, maintains RubyLLM-related projects, runs practical workshops, and advises founders building software products."
+        content: "Plenty builds AI-native work tools, maintains RubyLLM and ArchSpec-related projects, runs practical workshops, and provides AI and Ruby consulting."
       - heading: "Primary Projects"
         content: |
           - Chat with Work: https://chatwithwork.com
           - RubyLLM: https://rubyllm.com
+          - ArchSpec: https://archspecrb.dev
           - RubyLLM Workshops: https://github.com/crmne/ruby_llm-workshop
-          - Founder Advisory: mailto:carmine@plenty.is
+          - AI and Ruby consulting: https://paolino.me/services/
           - Cluster Headache Tracker: https://clusterheadachetracker.com
           - hyprmoncfg: https://hyprmoncfg.dev
           - Jekyll VitePress: https://jekyll-vitepress.dev
@@ -93,6 +95,10 @@ ai_visible_content:
         name: "RubyLLM"
         url: "https://rubyllm.com"
         description: "Ruby tooling for building with large language models."
+      archspec:
+        name: "ArchSpec"
+        url: "https://archspecrb.dev"
+        description: "Executable architecture specifications and linting for Ruby and Rails."
       ruby-on-rails:
         name: "Ruby on Rails"
         url: "https://rubyonrails.org"
@@ -105,10 +111,10 @@ ai_visible_content:
         name: "Developer workshops"
         url: "https://github.com/crmne/ruby_llm-workshop"
         description: "Hands-on RubyLLM training and workshop material."
-      founder-advisory:
-        name: "Founder advisory"
-        url: "mailto:carmine@plenty.is"
-        description: "Advisory for founders building software products."
+      ai-and-ruby-consulting:
+        name: "AI and Ruby consulting"
+        url: "https://paolino.me/services/"
+        description: "AI and Ruby consulting, RubyLLM workshops, and founder coaching."
       open-source-ruby-tools:
         name: "Open source Ruby tools"
         url: "https://github.com/crmne"

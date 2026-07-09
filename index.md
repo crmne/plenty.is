@@ -1,9 +1,9 @@
 ---
 layout: home
 title: Plenty
-description: Plenty is Carmine Paolino's company for AI-native work tools, RubyLLM, workshops, and founder advisory.
-social_title: "Plenty - Chat with Work, RubyLLM, Workshops, Advisory"
-social_description: "Plenty focuses on Chat with Work, RubyLLM, workshops, and founder advisory."
+description: Plenty is Carmine Paolino's company for AI-native work tools, RubyLLM, ArchSpec, AI and Ruby consulting, and workshops.
+social_title: "Plenty - Chat with Work, RubyLLM, ArchSpec, Consulting"
+social_description: "Plenty focuses on Chat with Work, RubyLLM, ArchSpec, AI and Ruby consulting, and workshops."
 company_name: Plenty
 connector_word: is
 animation_hold_ms: 3000
@@ -11,20 +11,23 @@ animation_transition_ms: 1500
 topics:
   - AI-native work tools
   - RubyLLM
+  - Architecture linting
+  - AI and Ruby consulting
   - Developer workshops
-  - Founder advisory
   - Open source Ruby tools
 projects:
   - title: Chat with Work
     link: https://chatwithwork.com
   - title: RubyLLM
     link: https://rubyllm.com
+  - title: ArchSpec
+    link: https://archspecrb.dev
   - title: RubyLLM Workshops
     link: https://github.com/crmne/ruby_llm-workshop
   - title: Speaking
     link: https://www.rubyevents.org/profiles/crmne
-  - title: Founder Advisory
-    link: "mailto:carmine@plenty.is?subject=Founder%20Advisory&body=Hey%20Carmine%2C%0A%0AI%27m%20building%20_________%20and%20I%27m%20stuck%20on%20_________.%0A%0AA%20bit%20about%20where%20we%20are%3A%0A%0A-%20Stage%3A%0A-%20Team%20size%3A%0A-%20Biggest%20question%20right%20now%3A%0A%0ALet%27s%20talk."
+  - title: AI and Ruby Consulting
+    link: https://paolino.me/services/
   - title: Cluster Headache Tracker
     link: https://clusterheadachetracker.com
   - title: hyprmoncfg
