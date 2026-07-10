@@ -115,7 +115,8 @@ a:focus-visible {
   transform: translateY(0);
 }
 
-.hero__word.is-exit {
+.hero__word.is-exiting {
+  pointer-events: none;
   opacity: 0;
   filter: blur(14px);
   transform: translateY(-1.6em);
@@ -184,9 +185,5 @@ a:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .hero__word {
     transition: none;
-  }
-
-  .hero__word:not(.is-active) {
-    display: none;
   }
 }

@@ -3,6 +3,7 @@ layout: default
 ---
 
 {% assign projects = page.projects %}
+{% assign first_project = projects | first %}
 <main class="hero" aria-label="Plenty landing page">
   <h1 class="hero__line" aria-live="polite">
     <span class="hero__prefix">
@@ -10,12 +11,14 @@ layout: default
       <span class="hero__is">{{ page.connector_word | default: "is" }}</span>
     </span>
     <span class="hero__dynamic" data-rotator>
-      <span class="hero__sizer" data-rotator-sizer aria-hidden="true"></span>
-      {% for project in projects %}
-        <span class="hero__word{% if forloop.first %} is-active{% endif %}" data-rotating-word>
-          <a class="hero__word-link" href="{{ project.link }}">{{ project.title }}</a>
-        </span>
-      {% endfor %}
+      <span class="hero__sizer" data-rotator-sizer aria-hidden="true">{{ first_project.title }}</span>
+      <a class="hero__word hero__word-link is-active" href="{{ first_project.link }}" data-rotator-current>{{ first_project.title }}</a>
+      <a class="hero__word hero__word-link" href="{{ first_project.link }}" data-rotator-next aria-hidden="true" tabindex="-1">{{ first_project.title }}</a>
+      <template data-rotator-items>
+        {% for project in projects %}
+          <a href="{{ project.link }}">{{ project.title }}</a>
+        {% endfor %}
+      </template>
     </span>
   </h1>
 </main>
@@ -36,11 +39,22 @@ layout: default
 
 <script>
   (() => {
-    const words = Array.from(document.querySelectorAll("[data-rotating-word]"));
-    const slot = document.querySelector("[data-rotator]");
+    const rotator = document.querySelector("[data-rotator]");
+    const currentLink = document.querySelector("[data-rotator-current]");
+    const nextLink = document.querySelector("[data-rotator-next]");
+    const template = document.querySelector("[data-rotator-items]");
     const sizer = document.querySelector("[data-rotator-sizer]");
 
-    if (!slot || words.length === 0) {
+    if (!rotator || !currentLink || !nextLink || !template) {
+      return;
+    }
+
+    const items = Array.from(template.content.querySelectorAll("a")).map((item) => ({
+      title: item.textContent.trim(),
+      link: item.getAttribute("href"),
+    })).filter((item) => item.title && item.link);
+
+    if (items.length === 0) {
       return;
     }
 
@@ -49,15 +63,24 @@ layout: default
         return;
       }
 
-      let widestWord = words[0];
+      let widestTitle = items[0].title;
+      let widestWidth = 0;
 
-      for (const word of words) {
-        if (word.offsetWidth > widestWord.offsetWidth) {
-          widestWord = word;
+      for (const item of items) {
+        sizer.textContent = item.title;
+
+        if (sizer.offsetWidth > widestWidth) {
+          widestWidth = sizer.offsetWidth;
+          widestTitle = item.title;
         }
       }
 
-      sizer.textContent = widestWord.textContent.trim();
+      sizer.textContent = widestTitle;
+    };
+
+    const updateLink = (link, item) => {
+      link.textContent = item.title;
+      link.setAttribute("href", item.link);
     };
 
     if (document.fonts && document.fonts.ready) {
@@ -68,15 +91,24 @@ layout: default
 
     window.addEventListener("resize", syncSizer);
 
-    if (words.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    updateLink(currentLink, items[0]);
+    updateLink(nextLink, items[0]);
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    if (items.length < 2 || reducedMotion.matches) {
       return;
     }
 
-    let activeIndex = Math.max(words.findIndex((word) => word.classList.contains("is-active")), 0);
+    let activeIndex = 0;
+    let activeLink = currentLink;
+    let inactiveLink = nextLink;
     const holdMs = {{ page.animation_hold_ms | default: 3000 }};
     const transitionMs = {{ page.animation_transition_ms | default: 1500 }};
     let cycleTimer = null;
-    let cleanupTimer = null;
+    let transitionTimer = null;
+
+    const isPaused = () => document.hidden || !document.hasFocus();
 
     const clearTimers = () => {
       if (cycleTimer !== null) {
@@ -84,59 +116,98 @@ layout: default
         cycleTimer = null;
       }
 
-      if (cleanupTimer !== null) {
-        window.clearTimeout(cleanupTimer);
-        cleanupTimer = null;
+      if (transitionTimer !== null) {
+        window.clearTimeout(transitionTimer);
+        transitionTimer = null;
       }
     };
 
-    const normalize = (index) => {
-      words.forEach((word, currentIndex) => {
-        word.classList.remove("is-exit");
-        word.classList.toggle("is-active", currentIndex === index);
-      });
+    const showCurrent = () => {
+      updateLink(activeLink, items[activeIndex]);
+      activeLink.classList.remove("is-exiting");
+      activeLink.classList.add("is-active");
+      activeLink.removeAttribute("aria-hidden");
+      activeLink.removeAttribute("tabindex");
 
-      activeIndex = index;
+      inactiveLink.classList.remove("is-active", "is-exiting");
+      inactiveLink.setAttribute("aria-hidden", "true");
+      inactiveLink.setAttribute("tabindex", "-1");
     };
 
     const scheduleNext = () => {
-      cycleTimer = window.setTimeout(cycle, holdMs);
+      clearTimers();
+
+      if (!isPaused()) {
+        cycleTimer = window.setTimeout(cycle, holdMs);
+      }
     };
 
     const cycle = () => {
-      const current = words[activeIndex];
-      const nextIndex = (activeIndex + 1) % words.length;
-      const next = words[nextIndex];
+      if (isPaused()) {
+        return;
+      }
 
-      current.classList.remove("is-active");
-      current.classList.add("is-exit");
-      next.classList.remove("is-exit");
+      const nextIndex = (activeIndex + 1) % items.length;
 
-      requestAnimationFrame(() => {
-        next.classList.add("is-active");
-      });
+      updateLink(inactiveLink, items[nextIndex]);
+      inactiveLink.classList.remove("is-exiting");
+      inactiveLink.setAttribute("aria-hidden", "true");
+      inactiveLink.setAttribute("tabindex", "-1");
+      void inactiveLink.offsetWidth;
 
-      cleanupTimer = window.setTimeout(() => {
-        current.classList.remove("is-exit");
-        cleanupTimer = null;
+      activeLink.classList.remove("is-active");
+      activeLink.classList.add("is-exiting");
+      activeLink.setAttribute("aria-hidden", "true");
+      activeLink.setAttribute("tabindex", "-1");
+
+      inactiveLink.classList.add("is-active");
+      inactiveLink.removeAttribute("aria-hidden");
+      inactiveLink.removeAttribute("tabindex");
+
+      transitionTimer = window.setTimeout(() => {
+        activeLink.classList.remove("is-exiting");
+        activeIndex = nextIndex;
+
+        const previousActiveLink = activeLink;
+        activeLink = inactiveLink;
+        inactiveLink = previousActiveLink;
+
+        inactiveLink.classList.remove("is-active", "is-exiting");
+        inactiveLink.setAttribute("aria-hidden", "true");
+        inactiveLink.setAttribute("tabindex", "-1");
+
+        scheduleNext();
       }, transitionMs);
+    };
 
-      activeIndex = nextIndex;
-      scheduleNext();
+    const pause = () => {
+      clearTimers();
+      showCurrent();
+    };
+
+    const resume = () => {
+      clearTimers();
+      showCurrent();
+
+      if (!isPaused()) {
+        scheduleNext();
+      }
     };
 
     document.addEventListener("visibilitychange", () => {
-      clearTimers();
-
-      const visibleIndex = words.findIndex((word) => word.classList.contains("is-active"));
-      normalize(visibleIndex >= 0 ? visibleIndex : activeIndex);
-
-      if (!document.hidden) {
-        scheduleNext();
+      if (isPaused()) {
+        pause();
+      } else {
+        resume();
       }
     });
 
-    if (!document.hidden) {
+    window.addEventListener("blur", pause);
+    window.addEventListener("focus", resume);
+    window.addEventListener("pagehide", pause);
+    window.addEventListener("pageshow", resume);
+
+    if (!isPaused()) {
       scheduleNext();
     }
   })();
