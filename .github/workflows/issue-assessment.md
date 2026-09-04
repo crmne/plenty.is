@@ -118,7 +118,7 @@ tools:
   cli-proxy: false
   github:
     allowed-repos:
-      - crmne/plenty*
+      - ${{ github.repository }}
     min-integrity: none
     toolsets:
       - discussions
