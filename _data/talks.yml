@@ -2,12 +2,12 @@
 # https://www.rubyevents.org/profiles/crmne (titles, events, dates and kinds
 # as RubyEvents records them). kind: talk, keynote, workshop, or demo.
 
-- title: "RubyLLM 2.0: The AI Framework Ruby Deserves"
+- title: "RubyLLM 2.2: The AI Framework Ruby Deserves"
   event: San Francisco Ruby Conference 2026
   date: 2026-11-10
   kind: talk
   link: https://www.rubyevents.org/talks/rubyllm-2-0-the-ai-framework-ruby-deserves
-- title: "RubyLLM 2.0: Beyond Agents"
+- title: "RubyLLM 2.1: You Can Have It All"
   event: Deccan Queen on Rails 2026
   date: 2026-10-08
   kind: talk
@@ -52,12 +52,12 @@
   date: 2026-02-01
   kind: keynote
   link: https://www.rubyevents.org/talks/carmine-paolino-rubyconfth-2026
-- title: Chatwithwork Demo
+- title: Chat with Work Demo
   event: San Francisco Ruby Conference 2025
   date: 2025-11-20
   kind: demo
   link: https://www.rubyevents.org/talks/chatwithwork-demo
-- title: "Keynote: RubyLLM"
+- title: "Keynote: RubyLLM: One API, One Person, One Machine for AI"
   event: San Francisco Ruby Conference 2025
   date: 2025-11-19
   kind: keynote
