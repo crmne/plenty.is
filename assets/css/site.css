@@ -433,7 +433,8 @@ a {
 
 .card__media {
   --media-bg: var(--tile);
-  aspect-ratio: 16 / 10;
+  /* The screenshots are 16:9, so the frame matches them and nothing is cropped. */
+  aspect-ratio: 16 / 9;
   background: var(--media-bg);
   border-bottom: 1px solid var(--line);
   overflow: hidden;
@@ -445,10 +446,6 @@ a {
   object-fit: cover;
   object-position: center;
   transition: transform 0.6s var(--ease);
-}
-
-.card:hover .card__media img {
-  transform: scale(1.03);
 }
 
 .card__media--logo {
@@ -475,8 +472,7 @@ a {
   }
 
   .card--wide .card__media {
-    aspect-ratio: auto;
-    min-height: 100%;
+    align-self: start;
     border-bottom: 0;
     border-right: 1px solid var(--line);
   }
@@ -1019,7 +1015,6 @@ a {
   }
 
   .card:hover,
-  .card:hover .card__media img,
   .offer:hover .offer__arrow {
     transform: none;
   }
