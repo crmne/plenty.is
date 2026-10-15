@@ -1,214 +1,86 @@
 ---
 layout: default
 ---
+{% assign total = 0 %}
+{% for group in site.project_groups %}{% assign items = site.data.projects | where: "category", group.category %}{% unless group.id == "work-with-plenty" %}{% assign total = total | plus: items.size %}{% endunless %}{% endfor %}
 
-{% assign projects = page.projects %}
-{% assign first_project = projects | first %}
-<main class="hero" aria-label="Plenty landing page">
-  <h1 class="hero__line" aria-live="polite">
-    <span class="hero__prefix">
-      <span class="hero__brand">{{ page.company_name | default: "Plenty" }}</span>
-      <span class="hero__is">{{ page.connector_word | default: "is" }}</span>
-    </span>
-    <span class="hero__dynamic" data-rotator>
-      <span class="hero__sizer" data-rotator-sizer aria-hidden="true">{{ first_project.title }}</span>
-      <a class="hero__word hero__word-link is-active" href="{{ first_project.link }}" data-rotator-current>{{ first_project.title }}</a>
-      <a class="hero__word hero__word-link" href="{{ first_project.link }}" data-rotator-next aria-hidden="true" tabindex="-1">{{ first_project.title }}</a>
-      <template data-rotator-items>
-        {% for project in projects %}
-          <a href="{{ project.link }}">{{ project.title }}</a>
-        {% endfor %}
-      </template>
-    </span>
-  </h1>
-</main>
+<section class="intro wrap" aria-labelledby="intro-title">
+  <div class="intro__copy">
+    <p class="eyebrow">Software company, Berlin</p>
+    <h1 class="intro__title" id="intro-title">
+      <span class="intro__line">Good enough isn’t Plenty<span class="dot">.</span></span>
+      <span class="intro__line intro__line--quiet">Fast, simple, and right in the&nbsp;details.</span>
+    </h1>
+    <p class="intro__lede">{{ page.lede }}</p>
+  </div>
+  <nav class="index" aria-label="What Plenty makes">
+    <p class="index__label"><span>Index</span><span>{{ total }} projects</span></p>
+    <ol class="index__list">
+      {% for group in site.project_groups %}
+        {% assign items = site.data.projects | where: "category", group.category %}
+        <li>
+          <a href="#{{ group.id }}">
+            <span class="index__num">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+            <span class="index__name">{{ group.title }}</span>
+            <span class="index__count">{{ items.size }}</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ol>
+  </nav>
+</section>
 
-<footer class="footer">
-  <p>
-    &copy; {{ "now" | date: "%Y" }} Plenty. A company by
-    <a class="footer__link" href="https://paolino.me">Carmine Paolino</a>.
-    <a class="footer__link" href="/imprint/">Imprint</a>
-  </p>
-</footer>
+<div id="work" class="work">
+  {% for group in site.project_groups %}
+    {% assign items = site.data.projects | where: "category", group.category %}
+    {% assign num = forloop.index %}
+    <section class="group wrap" id="{{ group.id }}" aria-labelledby="{{ group.id }}-title">
+      <header class="group__head">
+        <p class="group__num">{% if num < 10 %}0{% endif %}{{ num }}</p>
+        <h2 class="group__title" id="{{ group.id }}-title">{{ group.title }}</h2>
+        <p class="group__intro">{{ group.intro }}</p>
+      </header>
 
-<style>
-  :root {
-    --animation-duration: {{ page.animation_transition_ms | default: 1500 }}ms;
-  }
-</style>
+      {% if group.id == "work-with-plenty" %}
+        <ul class="offers" role="list">
+          {% for project in items %}
+            <li class="offer">
+              <h3 class="offer__title"><a class="offer__link" href="{{ project.link }}">{{ project.name }}</a></h3>
+              <p class="offer__text">{{ project.description }}</p>
+              <span class="offer__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        {% assign rem = items.size | modulo: 3 %}
+        <div class="cards">
+          {% for project in items %}
+            {% if forloop.first and rem == 1 %}
+              {% include project-card.html project=project wide="full" %}
+            {% elsif forloop.first and rem == 2 %}
+              {% include project-card.html project=project wide="two" %}
+            {% else %}
+              {% include project-card.html project=project %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </section>
+  {% endfor %}
+</div>
 
-<script>
-  (() => {
-    const rotator = document.querySelector("[data-rotator]");
-    const currentLink = document.querySelector("[data-rotator-current]");
-    const nextLink = document.querySelector("[data-rotator-next]");
-    const template = document.querySelector("[data-rotator-items]");
-    const sizer = document.querySelector("[data-rotator-sizer]");
+<section class="about-strip wrap" aria-labelledby="about-title">
+  <img class="about-strip__photo" src="{{ '/assets/images/brand/carmine-paolino.webp' | relative_url }}" alt="Carmine Paolino, smiling, on a bridge in Berlin" width="640" height="640" loading="lazy" decoding="async">
+  <div class="about-strip__copy">
+    <p class="eyebrow">About</p>
+    <h2 class="about-strip__title" id="about-title">One person, one standard<span class="dot">.</span></h2>
+    {{ content }}
+    <p><a class="textlink" href="{{ '/about/' | relative_url }}">More about Plenty</a></p>
+  </div>
+</section>
 
-    if (!rotator || !currentLink || !nextLink || !template) {
-      return;
-    }
-
-    const items = Array.from(template.content.querySelectorAll("a")).map((item) => ({
-      title: item.textContent.trim(),
-      link: item.getAttribute("href"),
-    })).filter((item) => item.title && item.link);
-
-    if (items.length === 0) {
-      return;
-    }
-
-    const syncSizer = () => {
-      if (!sizer) {
-        return;
-      }
-
-      let widestTitle = items[0].title;
-      let widestWidth = 0;
-
-      for (const item of items) {
-        sizer.textContent = item.title;
-
-        if (sizer.offsetWidth > widestWidth) {
-          widestWidth = sizer.offsetWidth;
-          widestTitle = item.title;
-        }
-      }
-
-      sizer.textContent = widestTitle;
-    };
-
-    const updateLink = (link, item) => {
-      link.textContent = item.title;
-      link.setAttribute("href", item.link);
-    };
-
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(syncSizer);
-    } else {
-      syncSizer();
-    }
-
-    window.addEventListener("resize", syncSizer);
-
-    updateLink(currentLink, items[0]);
-    updateLink(nextLink, items[0]);
-
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    if (items.length < 2 || reducedMotion.matches) {
-      return;
-    }
-
-    let activeIndex = 0;
-    let activeLink = currentLink;
-    let inactiveLink = nextLink;
-    const holdMs = {{ page.animation_hold_ms | default: 3000 }};
-    const transitionMs = {{ page.animation_transition_ms | default: 1500 }};
-    let cycleTimer = null;
-    let transitionTimer = null;
-
-    const isPaused = () => document.hidden || !document.hasFocus();
-
-    const clearTimers = () => {
-      if (cycleTimer !== null) {
-        window.clearTimeout(cycleTimer);
-        cycleTimer = null;
-      }
-
-      if (transitionTimer !== null) {
-        window.clearTimeout(transitionTimer);
-        transitionTimer = null;
-      }
-    };
-
-    const showCurrent = () => {
-      updateLink(activeLink, items[activeIndex]);
-      activeLink.classList.remove("is-exiting");
-      activeLink.classList.add("is-active");
-      activeLink.removeAttribute("aria-hidden");
-      activeLink.removeAttribute("tabindex");
-
-      inactiveLink.classList.remove("is-active", "is-exiting");
-      inactiveLink.setAttribute("aria-hidden", "true");
-      inactiveLink.setAttribute("tabindex", "-1");
-    };
-
-    const scheduleNext = () => {
-      clearTimers();
-
-      if (!isPaused()) {
-        cycleTimer = window.setTimeout(cycle, holdMs);
-      }
-    };
-
-    const cycle = () => {
-      if (isPaused()) {
-        return;
-      }
-
-      const nextIndex = (activeIndex + 1) % items.length;
-
-      updateLink(inactiveLink, items[nextIndex]);
-      inactiveLink.classList.remove("is-exiting");
-      inactiveLink.setAttribute("aria-hidden", "true");
-      inactiveLink.setAttribute("tabindex", "-1");
-      void inactiveLink.offsetWidth;
-
-      activeLink.classList.remove("is-active");
-      activeLink.classList.add("is-exiting");
-      activeLink.setAttribute("aria-hidden", "true");
-      activeLink.setAttribute("tabindex", "-1");
-
-      inactiveLink.classList.add("is-active");
-      inactiveLink.removeAttribute("aria-hidden");
-      inactiveLink.removeAttribute("tabindex");
-
-      transitionTimer = window.setTimeout(() => {
-        activeLink.classList.remove("is-exiting");
-        activeIndex = nextIndex;
-
-        const previousActiveLink = activeLink;
-        activeLink = inactiveLink;
-        inactiveLink = previousActiveLink;
-
-        inactiveLink.classList.remove("is-active", "is-exiting");
-        inactiveLink.setAttribute("aria-hidden", "true");
-        inactiveLink.setAttribute("tabindex", "-1");
-
-        scheduleNext();
-      }, transitionMs);
-    };
-
-    const pause = () => {
-      clearTimers();
-      showCurrent();
-    };
-
-    const resume = () => {
-      clearTimers();
-      showCurrent();
-
-      if (!isPaused()) {
-        scheduleNext();
-      }
-    };
-
-    document.addEventListener("visibilitychange", () => {
-      if (isPaused()) {
-        pause();
-      } else {
-        resume();
-      }
-    });
-
-    window.addEventListener("blur", pause);
-    window.addEventListener("focus", resume);
-    window.addEventListener("pagehide", pause);
-    window.addEventListener("pageshow", resume);
-
-    if (!isPaused()) {
-      scheduleNext();
-    }
-  })();
-</script>
+<section class="contact wrap" aria-labelledby="contact-title">
+  <h2 class="contact__title" id="contact-title">Say hello</h2>
+  <a class="contact__mail" href="mailto:hello@plenty.is">hello@plenty.is</a>
+  <p class="contact__note">For clients, press, and anyone using something Plenty makes.</p>
+</section>

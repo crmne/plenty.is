@@ -2,7 +2,7 @@
   {% assign page_title = page.social_title | default: page.title | default: site.title %}
   {% assign page_description = page.social_description | default: page.description | default: site.description %}
   {% assign canonical_url = page.url | replace: 'index.html', '' | absolute_url %}
-  {% assign favicon_svg_path = '/assets/images/plenty-logo.svg' %}
+  {% assign favicon_svg_path = '/assets/images/favicon.svg' %}
   {% assign favicon_png_path = '/assets/images/plenty-logo.png' %}
   {% assign default_social_image = '/assets/images/plenty-og.png' %}
   {% assign social_image_path = page.social_image | default: site.social_image | default: default_social_image %}
@@ -27,7 +27,10 @@
   {% endunless %}
   <link rel="icon" type="image/svg+xml" href="{{ favicon_svg_path | relative_url }}">
   <link rel="icon" type="image/png" sizes="512x512" href="{{ favicon_png_path | relative_url }}">
-  <link rel="apple-touch-icon" href="{{ favicon_png_path | relative_url }}">
+  <link rel="apple-touch-icon" href="{{ '/assets/images/apple-touch-icon.png' | relative_url }}">
+  <meta name="theme-color" content="#f4f0e6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121110" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
   <link rel="shortcut icon" href="{{ favicon_svg_path | relative_url }}">
 
   <meta property="og:locale" content="{{ site.og_locale | default: 'en_US' }}">
@@ -56,7 +59,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@400;700&family=Lora:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400..900&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
 
   <!-- Privacy-friendly analytics by Plausible -->
@@ -93,6 +96,23 @@
           "addressCountry": {{ entity.location.country | jsonify }}
         },
         "sameAs": {{ entity.same_as | jsonify }}
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "What Plenty makes",
+        "itemListElement": [
+          {% assign listed = 0 %}{% for group in site.project_groups %}{% assign items = site.data.projects | where: "category", group.category %}{% for project in items %}{% assign listed = listed | plus: 1 %}{% unless listed == 1 %},{% endunless %}
+          {
+            "@type": "ListItem",
+            "position": {{ listed }},
+            "name": {{ project.name | jsonify }},
+            "url": {{ project.link | jsonify }},
+            "description": {{ project.description | jsonify }}
+          }{% endfor %}{% endfor %}
+        ]
       }
     </script>
   {% endif %}

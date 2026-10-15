@@ -1,5 +1,5 @@
 title: Plenty
-description: "Plenty is Carmine Paolino's company for AI-native work tools, RubyLLM, ArchSpec, AI and Ruby consulting, and workshops."
+description: "Plenty is Carmine Paolino's software company in Berlin. It makes AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
 url: "https://plenty.is"
 baseurl: ""
 lang: en
@@ -9,7 +9,7 @@ twitter_card: "summary_large_image"
 social_image: "/assets/images/plenty-og.png"
 social_image_width: 1200
 social_image_height: 630
-social_image_alt: "Plenty focuses on Chat with Work, RubyLLM, ArchSpec, AI and Ruby consulting, and workshops."
+social_image_alt: "The Plenty wordmark and mark, with the line: software from Berlin, by Carmine Paolino."
 logo: "/assets/images/plenty-logo.png"
 markdown: kramdown
 
@@ -27,20 +27,23 @@ ai_visible_content:
     type: Organization
     id_slug: plenty
     name: "Plenty"
-    description: "Carmine Paolino's company for AI-native work tools, RubyLLM, ArchSpec, AI and Ruby consulting, and hands-on workshops."
+    description: "Carmine Paolino's software company in Berlin, making AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
     image: "/assets/images/plenty-logo.png"
     location:
       locality: "Berlin"
       country: "DE"
     knows_about:
-      - "AI-native work tools"
+      - "AI products"
       - "RubyLLM"
-      - "Architecture linting"
-      - "AI and Ruby consulting"
       - "Ruby on Rails"
       - "LLM applications"
+      - "Developer tools"
+      - "Native desktop applications"
+      - "Rust"
+      - "Linux desktop tools"
+      - "DJ software"
+      - "AI and Ruby consulting"
       - "Developer workshops"
-      - "Open source Ruby tools"
     same_as:
       - "https://paolino.me"
       - "https://x.com/paolino"
@@ -64,33 +67,48 @@ ai_visible_content:
   llms_txt:
     enabled: true
     title: "Plenty"
-    description: "Plenty builds and supports AI-native tools, RubyLLM, and ArchSpec work led by Carmine Paolino."
+    description: "Plenty is Carmine Paolino's software company in Berlin: AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
     include_full_text: true
     sections:
       - heading: "What Plenty Does"
-        content: "Plenty builds AI-native work tools, maintains RubyLLM and ArchSpec-related projects, runs practical workshops, and provides AI and Ruby consulting."
-      - heading: "Primary Projects"
+        content: "Plenty is a one-person software company in Berlin run by Carmine Paolino. It makes AI products, Ruby frameworks, developer tools, native desktop apps written in Rust, Linux desktop tools, and DJ software, and offers AI and Ruby consulting, workshops, and talks."
+      - heading: "Apps"
         content: |
           - Chat with Work: https://chatwithwork.com
+          - Solco (private alpha): https://getsolco.com
+          - Spotifast: https://spotifast.rocks
+          - ZapFast: https://zapfast.rocks
+          - TonePush: https://tonepush.rocks
+          - Cluster Headache Tracker: https://clusterheadachetracker.com
+      - heading: "Libraries and developer tools"
+        content: |
           - RubyLLM: https://rubyllm.com
           - ArchSpec: https://archspecrb.dev
-          - RubyLLM Workshops: https://github.com/crmne/ruby_llm-workshop
-          - AI and Ruby consulting: https://paolino.me/services/
-          - Cluster Headache Tracker: https://clusterheadachetracker.com
+          - Schematist: https://github.com/crmne/schematist
           - hyprmoncfg: https://hyprmoncfg.dev
-          - Jekyll VitePress: https://jekyll-vitepress.dev
           - Kamal Backup: https://kamal-backup.dev
+          - Jekyll VitePress: https://jekyll-vitepress.dev
+          - native-packages: https://native-packages.dev
+          - fastframe: https://fastframe.dev
+          - Copilot Triage: https://github.com/marketplace/actions/copilot-triage
+      - heading: "Omarchy plugins"
+        content: "OmaStats, OmaTasks for Todoist, Ultimate Guitar Tabs, Lyrics Synced with Music, hyprmoncfg for Omarchy, Active Window + Icon, and Media Controls + Album Art: https://plugins.omarchy.org"
+      - heading: "Work with Plenty"
+        content: |
+          - AI and Ruby consulting: https://paolino.me/work-with-me/
+          - RubyLLM Workshops: https://github.com/crmne/ruby_llm-workshop
+          - Speaking: https://www.rubyevents.org/profiles/crmne
   linking:
-    enable_entity_links: true
+    enable_entity_links: false
     apply_to_metadata: false
     max_links_per_entity_per_post: 1
     enable_related_posts: true
     related_posts_limit: 3
     entity_definitions:
-      ai-native-work-tools:
-        name: "AI-native work tools"
+      chat-with-work:
+        name: "Chat with Work"
         url: "https://chatwithwork.com"
-        description: "Tools that use AI to work with business context and documents."
+        description: "Private AI search across your connected work tools."
       rubyllm:
         name: "RubyLLM"
         url: "https://rubyllm.com"
@@ -113,7 +131,7 @@ ai_visible_content:
         description: "Hands-on RubyLLM training and workshop material."
       ai-and-ruby-consulting:
         name: "AI and Ruby consulting"
-        url: "https://paolino.me/services/"
+        url: "https://paolino.me/work-with-me/"
         description: "AI and Ruby consulting, RubyLLM workshops, and founder coaching."
       open-source-ruby-tools:
         name: "Open source Ruby tools"
@@ -145,3 +163,23 @@ ai_visible_content:
 
 exclude:
   - README.md
+
+# Sections of the home page, in order. Each shows the projects in
+# _data/projects.yml whose `category` matches `category`.
+project_groups:
+  - category: Apps
+    id: apps
+    title: Apps
+    intro: Products for work, music, and health, on the web and as native desktop apps.
+  - category: Libraries & developer tools
+    id: tools
+    title: Libraries and developer tools
+    intro: Open source Ruby frameworks, Rust foundations, and the tools that build, check, and ship software.
+  - category: Omarchy plugins
+    id: omarchy
+    title: Omarchy plugins
+    intro: Plugins for the Omarchy Linux desktop, in the bar and the panels it opens.
+  - category: Work with me
+    id: work-with-plenty
+    title: Work with Plenty
+    intro: Carmine Paolino's time, for teams building with AI and Ruby.

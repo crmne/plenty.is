@@ -1,0 +1,16 @@
+<footer class="footer">
+  <div class="footer__inner wrap">
+    <div class="footer__brand">
+      <a class="footer__home" href="{{ '/' | relative_url }}" aria-label="Plenty, home">{% include wordmark.html %}</a>
+      <p>Software from Berlin, by <a href="https://paolino.me">Carmine Paolino</a>.</p>
+    </div>
+    <nav class="footer__nav" aria-label="Footer">
+      <a href="{{ '/#work' | relative_url }}">Work</a>
+      <a href="{{ '/about/' | relative_url }}">About</a>
+      <a href="mailto:hello@plenty.is">hello@plenty.is</a>
+      <a href="https://github.com/crmne">GitHub</a>
+      <a href="{{ '/imprint/' | relative_url }}">Imprint</a>
+    </nav>
+    <p class="footer__legal">&copy; {{ "now" | date: "%Y" }} PlentyLabs UG (haftungsbeschränkt) &amp; Co. KG</p>
+  </div>
+</footer>

@@ -1,0 +1,12 @@
+<header class="masthead">
+  <div class="masthead__inner wrap">
+    <a class="masthead__home" href="{{ '/' | relative_url }}" aria-label="Plenty, home"{% if page.url == "/" %} aria-current="page"{% endif %}>
+      {% include wordmark.html %}
+    </a>
+    <nav class="masthead__nav" aria-label="Main">
+      <a href="{{ '/#work' | relative_url }}">Work</a>
+      <a href="{{ '/about/' | relative_url }}"{% if page.url == "/about/" %} aria-current="page"{% endif %}>About</a>
+      <a href="mailto:hello@plenty.is">Contact</a>
+    </nav>
+  </div>
+</header>

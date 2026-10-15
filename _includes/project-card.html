@@ -1,0 +1,17 @@
+{% assign project = include.project %}
+{% assign host = project.link | remove: "https://" | remove: "http://" | split: "?" | first | remove: "www." %}
+{% if host contains "/" %}{% assign host_last = host | slice: -1, 1 %}{% if host_last == "/" %}{% assign host = host | remove_last: "/" %}{% endif %}{% endif %}
+{% if host contains "plugins.omarchy.org" %}{% assign host = "plugins.omarchy.org" %}{% endif %}
+<article class="card{% if include.wide %} card--wide card--wide-{{ include.wide }}{% endif %}">
+  {% if project.image %}
+    {% assign img = project.image %}
+    <div class="card__media card__media--{{ img.style | default: 'screenshot' }}"{% if img.background %} style="--media-bg: {{ img.background }}"{% endif %}>
+      <img src="{{ img.path | relative_url }}" alt="{{ img.alt | escape }}" width="{{ img.width }}" height="{{ img.height }}" loading="lazy" decoding="async"{% if img.position %} style="object-position: {{ img.position }}"{% endif %}>
+    </div>
+  {% endif %}
+  <div class="card__body">
+    <h3 class="card__title"><a class="card__link" href="{{ project.link }}">{{ project.name }}</a></h3>
+    <p class="card__text">{{ project.description }}</p>
+    <p class="card__host"><span>{{ host }}</span><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M5 11 11 5M6 5h5v5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+  </div>
+</article>

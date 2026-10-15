@@ -1,39 +1,21 @@
 ---
 layout: home
 title: Plenty
-description: Plenty is Carmine Paolino's company for AI-native work tools, RubyLLM, ArchSpec, AI and Ruby consulting, and workshops.
-social_title: "Plenty - Chat with Work, RubyLLM, ArchSpec, Consulting"
-social_description: "Plenty focuses on Chat with Work, RubyLLM, ArchSpec, AI and Ruby consulting, and workshops."
-company_name: Plenty
-connector_word: is
-animation_hold_ms: 3000
-animation_transition_ms: 1500
+description: "Plenty is Carmine Paolino's software company in Berlin. It makes AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
+social_title: "Plenty: software from Berlin by Carmine Paolino"
+social_description: "Chat with Work, Solco, Spotifast, RubyLLM, ArchSpec, and more. AI products, Ruby frameworks, native desktop apps, and Linux tools from Plenty."
+lede: "Plenty is a one-person software company in Berlin, run by Carmine Paolino. It makes AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
 topics:
-  - AI-native work tools
+  - AI products
   - RubyLLM
-  - Architecture linting
+  - Ruby on Rails
+  - Developer tools
+  - Native desktop applications
+  - Linux desktop tools
+  - DJ software
   - AI and Ruby consulting
-  - Developer workshops
-  - Open source Ruby tools
-projects:
-  - title: Chat with Work
-    link: https://chatwithwork.com
-  - title: RubyLLM
-    link: https://rubyllm.com
-  - title: ArchSpec
-    link: https://archspecrb.dev
-  - title: RubyLLM Workshops
-    link: https://github.com/crmne/ruby_llm-workshop
-  - title: Speaking
-    link: https://www.rubyevents.org/profiles/crmne
-  - title: AI and Ruby Consulting
-    link: https://paolino.me/services/
-  - title: Cluster Headache Tracker
-    link: https://clusterheadachetracker.com
-  - title: hyprmoncfg
-    link: https://hyprmoncfg.dev
-  - title: Jekyll VitePress
-    link: https://jekyll-vitepress.dev
-  - title: Kamal Backup
-    link: https://kamal-backup.dev
 ---
+
+Plenty is small on purpose. Carmine Paolino designs, builds, and ships every product himself, which keeps each one fast, focused, and consistent down to the last detail.
+
+The open source work gets the same care. RubyLLM, ArchSpec, and the tools around them are free to use, documented, and maintained.

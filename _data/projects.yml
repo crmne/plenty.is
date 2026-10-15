@@ -1,0 +1,136 @@
+# Everything Plenty makes, in display order.
+# Same fields as the `projects` list in paolino.me's _config.yml, so both sites
+# can read one file: name, link, image {path, width, height, alt, style,
+# position, background, dark}, category, description, featured.
+# plenty.is shows the categories listed under `project_groups` in _config.yml.
+
+- name: Chat with Work
+  link: https://chatwithwork.com
+  image: {path: /assets/images/projects/chat-with-work.webp, width: 800, height: 420, alt: "Chat with Work: private AI search for your work, beside a globe with Europe lit", style: screenshot}
+  category: Apps
+  description: Private AI search for your work. Ask one question across your connected tools and get answers with sources, hosted in the EU and without a company index.
+  featured: true
+- name: Solco
+  link: https://getsolco.com
+  image: {path: /assets/images/projects/solco.webp, width: 800, height: 420, alt: "Solco's \"Stop preparing your tracks\" headline over a beatgridded waveform", style: screenshot}
+  category: Apps
+  description: The DJ library app. Stop preparing your tracks. Solco grids, keys, sorts, and tags every download, then writes the USB your CDJs read. In private alpha.
+- name: Spotifast
+  link: https://spotifast.rocks
+  image: {path: /assets/images/projects/spotifast.webp, width: 800, height: 475, alt: "Spotifast's music library and player", style: screenshot, position: "center top"}
+  category: Apps
+  description: A lightweight native Spotify client for Linux, macOS, and Windows, with local playback and Spotify Connect.
+  featured: true
+- name: ZapFast
+  link: https://zapfast.rocks
+  image: {path: /assets/images/projects/zapfast.webp, width: 800, height: 600, alt: "ZapFast showing chats, attachments, and voice messages", style: screenshot, position: "center top"}
+  category: Apps
+  description: A native WhatsApp client for Linux, macOS, and Windows, with chats, voice messages, attachments, and notifications.
+- name: TonePush
+  link: https://tonepush.rocks
+  image: {path: /assets/images/projects/tonepush.webp, width: 800, height: 420, alt: "TonePush: Find the tone. Play it on your pedal, above a chain of effect blocks", style: screenshot}
+  category: Apps
+  description: Guitar tones for your pedal. A catalog website to find presets by artist, song, or original sound and see their signal chains, plus a free, open-source desktop editor that loads them onto your HX Stomp.
+- name: Cluster Headache Tracker
+  link: https://clusterheadachetracker.com
+  image: {path: /assets/images/projects/cluster-headache-tracker.webp, width: 800, height: 800, alt: "Cluster Headache Tracker logo", style: logo, background: "#2b3858"}
+  category: Apps
+  description: A free, open-source app for logging cluster headaches, spotting patterns, and sharing records with your doctor.
+- name: RubyLLM
+  link: https://rubyllm.com
+  image: {path: /assets/images/projects/rubyllm.webp, width: 800, height: 420, alt: "RubyLLM: build AI features the Ruby way", style: screenshot}
+  category: Libraries & developer tools
+  description: A Ruby framework for AI applications, with a consistent interface to major providers. Build agents, chat, structured outputs, and multimodal applications.
+  featured: true
+- name: ArchSpec
+  link: https://archspecrb.dev
+  image: {path: /assets/images/projects/archspec.webp, width: 800, height: 470, alt: "ArchSpec reporting an architecture violation in the terminal", style: screenshot, position: "center top"}
+  category: Libraries & developer tools
+  description: Executable architecture rules for Ruby and Rails. Check boundaries, dependencies, and conventions on every change.
+  featured: true
+- name: Schematist
+  link: https://github.com/crmne/schematist
+  image: {path: /assets/images/projects/schematist.webp, width: 800, height: 575, alt: "A JSON Schema definition written with Schematist", style: screenshot}
+  category: Libraries & developer tools
+  description: A Ruby DSL for JSON Schema, formerly RubyLLM::Schema. Describe API payloads, configuration, and structured AI outputs.
+  featured: true
+- name: hyprmoncfg
+  link: https://hyprmoncfg.dev
+  image: {path: /assets/images/projects/hyprmoncfg.webp, width: 800, height: 480, alt: "hyprmoncfg's monitor layout editor", style: screenshot, position: "center top"}
+  category: Libraries & developer tools
+  description: Arrange Hyprland monitors and save display profiles without doing coordinate math.
+  featured: true
+- name: Kamal Backup
+  link: https://kamal-backup.dev
+  image: {path: /assets/images/projects/kamal-backup.svg, width: 64, height: 64, alt: "Kamal Backup logo", style: logo}
+  category: Libraries & developer tools
+  description: Scheduled database and file backups for Rails applications deployed with Kamal.
+  featured: true
+- name: Jekyll VitePress
+  link: https://jekyll-vitepress.dev
+  image: {path: /assets/images/projects/jekyll-vitepress.webp, width: 800, height: 419, alt: "A documentation site built with Jekyll VitePress", style: screenshot}
+  category: Libraries & developer tools
+  description: A documentation theme that brings VitePress-style navigation, search, and polish to Jekyll.
+- name: native-packages
+  link: https://native-packages.dev
+  image: {path: /assets/images/projects/native-packages.svg, width: 256, height: 256, alt: "native-packages logo", style: logo}
+  category: Libraries & developer tools
+  description: Turn your built application into Linux packages, macOS disk images, and Windows installers, then publish releases.
+- name: fastframe
+  link: https://fastframe.dev
+  image: {path: /assets/images/projects/fastframe.svg, width: 128, height: 128, alt: "fastframe logo", style: logo}
+  category: Libraries & developer tools
+  description: egui on rails. The shared Rust foundation of Plenty's native desktop apps, with desktop-aware text rendering, themes, a tray, and self-update.
+- name: Copilot Triage
+  link: https://github.com/marketplace/actions/copilot-triage
+  image: {path: /assets/images/projects/copilot-triage.svg, width: 256, height: 256, alt: "GitHub mark branching into three colored issue labels", style: logo, background: "#f6f8fa"}
+  category: Libraries & developer tools
+  description: A GitHub Action that uses Copilot to label issues and discussions, ask for missing details, and answer questions from your project's documentation. Built with a small Ruby script and cached replies.
+  featured: true
+- name: OmaStats
+  link: https://plugins.omarchy.org/plugin.html?id=crmne.omastats
+  image: {path: /assets/images/projects/omastats.webp, width: 800, height: 450, alt: "OmaStats system monitoring graphs and sensor readouts in the Omarchy bar", style: screenshot}
+  category: Omarchy plugins
+  description: System monitoring in the bar, with live graphs for CPU, memory, disks, network, temperatures, and battery.
+- name: OmaTasks for Todoist
+  link: https://github.com/crmne/omatasks
+  image: {path: /assets/images/projects/omatasks.webp, width: 800, height: 450, alt: "OmaTasks showing a compact Todoist task list in an Omarchy panel", style: screenshot}
+  category: Omarchy plugins
+  description: Todoist in the bar, with Today, Inbox, and Upcoming views, Quick Add, task editing, and drag-to-reorder that syncs across your devices.
+- name: Ultimate Guitar Tabs
+  link: https://plugins.omarchy.org/plugin.html?id=crmne.ultimate-guitar
+  image: {path: /assets/images/projects/omarchy-ultimate-guitar.webp, width: 800, height: 450, alt: "Ultimate Guitar Tabs showing a song's tab in an Omarchy panel", style: screenshot}
+  category: Omarchy plugins
+  description: The tab for whatever you're playing, right in the bar. Switch instruments and versions, and auto-scroll while you play.
+- name: Lyrics Synced with Music
+  link: https://plugins.omarchy.org/plugin.html?id=crmne.lyrics
+  image: {path: /assets/images/projects/omarchy-lyrics.webp, width: 800, height: 450, alt: "The Omarchy lyrics panel following a song line by line", style: screenshot}
+  category: Omarchy plugins
+  description: Lyrics that follow your music line by line, with click-to-seek, timing adjustments, and a resizable reader.
+- name: hyprmoncfg for Omarchy
+  link: https://plugins.omarchy.org/plugin.html?id=crmne.hyprmoncfg
+  image: {path: /assets/images/projects/omarchy-hyprmoncfg.webp, width: 800, height: 450, alt: "The hyprmoncfg monitor management panel for Omarchy", style: screenshot}
+  category: Omarchy plugins
+  description: The desktop panel for hyprmoncfg, with a visual layout editor, per-display brightness, and profiles that follow your connected monitors.
+- name: Active Window + Icon
+  link: https://plugins.omarchy.org/plugin.html?id=crmne.active-window
+  image: {path: /assets/images/projects/omarchy-active-window.webp, width: 800, height: 450, alt: "Active Window showing the focused app's icon and appearance controls", style: screenshot}
+  category: Omarchy plugins
+  description: The focused application's title and real desktop icon in the bar, with adjustable sizing, saturation, and an icon-only mode.
+- name: Media Controls + Album Art
+  link: https://plugins.omarchy.org/plugin.html?id=crmne.mpris
+  image: {path: /assets/images/projects/omarchy-mpris.webp, width: 800, height: 450, alt: "Omarchy media controls with album artwork and track details", style: screenshot}
+  category: Omarchy plugins
+  description: Playback controls, live album art, and track details for Spotify and other desktop players, adapting to the space in your bar.
+- name: AI and Ruby Consulting
+  link: https://paolino.me/work-with-me/
+  category: Work with me
+  description: Carmine Paolino works with founders and teams on AI products, RubyLLM, and Rails applications, from architecture to shipping.
+- name: RubyLLM Workshops
+  link: https://github.com/crmne/ruby_llm-workshop
+  category: Work with me
+  description: A hands-on workshop where teams build an AI app in Rails with RubyLLM, from streaming chat to tools, agents, and multi-agent pipelines.
+- name: Speaking
+  link: https://www.rubyevents.org/profiles/crmne
+  category: Work with me
+  description: Talks, keynotes, and workshops on Ruby and AI at conferences and meetups across Europe, Asia, and the US, with keynotes at San Francisco Ruby Conference 2025 and RubyConf TH 2026.

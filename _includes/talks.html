@@ -1,0 +1,11 @@
+{% assign today = site.time | date: "%Y-%m-%d" %}
+<ol class="talks" reversed>
+{% for talk in site.data.talks %}{% assign talk_day = talk.date | date: "%Y-%m-%d" %}
+<li class="talk">
+<span class="talk__year">{{ talk.date | date: "%Y" }}</span>
+<span class="talk__main"><a class="talk__title" href="{{ talk.link }}">{{ talk.title }}</a><span class="talk__event">{{ talk.event }}</span></span>
+<span class="talk__tags">{% if talk_day > today %}<span class="tag tag--next">Upcoming</span>{% endif %}{% if talk.kind != "talk" %}<span class="tag{% if talk.kind == 'keynote' %} tag--keynote{% endif %}">{{ talk.kind | capitalize }}</span>{% endif %}</span>
+</li>
+{% endfor %}
+</ol>
+<p><a class="textlink" href="https://www.rubyevents.org/profiles/crmne">All talks and videos on RubyEvents</a></p>
