@@ -460,10 +460,6 @@ a {
   object-fit: contain;
 }
 
-.card__media--social img {
-  object-fit: contain;
-}
-
 @media (min-width: 80rem) {
   /* Wide cards sit image-left, text-right, and take the row height of the card beside them. */
   .card--wide {
