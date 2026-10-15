@@ -433,7 +433,7 @@ a {
 
 .card__media {
   --media-bg: var(--tile);
-  /* The screenshots are 16:9, so the frame matches them and nothing is cropped. */
+  /* Keep a consistent frame for screenshots, share images, and logos. */
   aspect-ratio: 16 / 9;
   background: var(--media-bg);
   border-bottom: 1px solid var(--line);
@@ -457,6 +457,10 @@ a {
   width: auto;
   height: 42%;
   max-width: 50%;
+  object-fit: contain;
+}
+
+.card__media--social img {
   object-fit: contain;
 }
 

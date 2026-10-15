@@ -83,6 +83,8 @@ ai_visible_content:
       - heading: "Libraries and developer tools"
         content: |
           - RubyLLM: https://rubyllm.com
+          - MXC for Ruby: https://crmne.github.io/mxc/
+          - devhost: https://github.com/crmne/devhost
           - ArchSpec: https://archspecrb.dev
           - Schematist: https://github.com/crmne/schematist
           - hyprmoncfg: https://hyprmoncfg.dev
@@ -92,7 +94,28 @@ ai_visible_content:
           - fastframe: https://fastframe.dev
           - Copilot Triage: https://github.com/marketplace/actions/copilot-triage
       - heading: "Omarchy plugins"
-        content: "OmaStats, OmaTasks for Todoist, Ultimate Guitar Tabs, Lyrics Synced with Music, hyprmoncfg for Omarchy, Active Window + Icon, and Media Controls + Album Art: https://plugins.omarchy.org"
+        content: |
+          - OmaCal: https://github.com/crmne/omacal
+          - Files for Omarchy: https://github.com/crmne/omarchy-files
+          - MOZA for Omarchy: https://github.com/crmne/omarchy-moza
+          - OmaStats: https://github.com/crmne/omastats
+          - OmaTasks for Todoist: https://github.com/crmne/omatasks
+          - Ultimate Guitar Tabs: https://github.com/crmne/omarchy-ultimate-guitar
+          - Lyrics Synced with Music: https://github.com/crmne/omarchy-lyrics
+          - hyprmoncfg for Omarchy: https://github.com/crmne/omarchy-hyprmoncfg
+          - Active Window + Icon: https://github.com/crmne/omarchy-active-window
+          - Media Controls + Album Art: https://github.com/crmne/omarchy-mpris
+      - heading: "Omarchy tools and themes"
+        content: |
+          - Omarchy Rescue: https://github.com/crmne/omarchy-rescue
+          - Plenty Dark: https://github.com/crmne/omarchy-plenty-dark-theme
+          - Plenty Light: https://github.com/crmne/omarchy-plenty-light-theme
+          - RubyLLM Dark: https://github.com/crmne/omarchy-ruby-llm-dark-theme
+          - RubyLLM Light: https://github.com/crmne/omarchy-ruby-llm-light-theme
+          - Chat with Work Dark: https://github.com/crmne/omarchy-chat-with-work-dark-theme
+          - Chat with Work Light: https://github.com/crmne/omarchy-chat-with-work-light-theme
+          - Solco Dark: https://github.com/crmne/omarchy-solco-dark-theme
+          - Solco Light: https://github.com/crmne/omarchy-solco-light-theme
       - heading: "Work with Plenty"
         content: |
           - AI and Ruby consulting: https://paolino.me/work-with-me/
@@ -163,6 +186,7 @@ ai_visible_content:
 
 exclude:
   - README.md
+  - assets/images/projects/README.md
 
 # Sections of the home page, in order. Each shows the projects in
 # _data/projects.yml whose `category` matches `category`.
@@ -178,7 +202,11 @@ project_groups:
   - category: Omarchy plugins
     id: omarchy
     title: Omarchy plugins
-    intro: Plugins for the Omarchy Linux desktop, in the bar and the panels it opens.
+    intro: Plugins for the Omarchy Linux desktop, from calendar and file search to system monitoring, music, and racing hardware.
+  - category: Omarchy tools & themes
+    id: omarchy-tools-themes
+    title: Omarchy tools and themes
+    intro: A rescue USB for recovering an Omarchy system, plus light and dark desktop themes drawn from Plenty, RubyLLM, Chat with Work, and Solco.
   - category: Work with me
     id: work-with-plenty
     title: Work with Plenty
