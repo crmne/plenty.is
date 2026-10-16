@@ -461,23 +461,31 @@ a {
 }
 
 @media (min-width: 80rem) {
-  /* Wide cards sit image-left, text-right, and take the row height of the card beside them. */
-  .card--wide {
+  /* Full-row cards sit image-left, text-right. Two-column cards stay stacked:
+     their row height comes from the card beside them, which a side-by-side
+     16:9 image is too short to fill. */
+  .card--wide-full {
     display: grid;
     grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   }
 
   .card--wide-full .card__media {
-    aspect-ratio: 16 / 9;
-  }
-
-  .card--wide .card__media {
     align-self: start;
     border-bottom: 0;
     border-right: 1px solid var(--line);
   }
 
-  .card--wide .card__body {
+  .card--wide-full .card__body {
+    justify-content: flex-end;
+    padding: 1.6rem;
+  }
+
+  .card--wide .card__title {
+    font-size: 1.75rem;
+  }
+}
+
+.card__body {
     justify-content: flex-end;
     padding: 1.6rem;
   }
