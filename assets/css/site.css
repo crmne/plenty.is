@@ -486,16 +486,6 @@ a {
 }
 
 .card__body {
-    justify-content: flex-end;
-    padding: 1.6rem;
-  }
-
-  .card--wide .card__title {
-    font-size: 1.75rem;
-  }
-}
-
-.card__body {
   display: flex;
   flex-direction: column;
   flex: 1;
