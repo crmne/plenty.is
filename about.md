@@ -54,7 +54,7 @@ Talks, keynotes, workshops, and demos, newest first, as listed on [RubyEvents](h
 
 ## Work with Plenty
 
-Carmine Paolino offers [AI and Ruby consulting](https://paolino.me/work-with-me/), runs [RubyLLM workshops](https://github.com/crmne/ruby_llm-workshop) for teams, and gives [talks](https://www.rubyevents.org/profiles/crmne) at conferences and meetups.
+Carmine Paolino offers [AI and Ruby consulting](https://paolino.me/work-with-me/) and [founder coaching](https://paolino.me/work-with-me/#founder-coaching), runs [RubyLLM workshops](https://github.com/crmne/ruby_llm-workshop) for teams, and gives [talks](https://www.rubyevents.org/profiles/crmne) at conferences and meetups.
 
 ## Contact and press
 

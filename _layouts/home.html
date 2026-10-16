@@ -52,9 +52,18 @@ layout: default
           {% endfor %}
         </ul>
       {% else %}
-        {% assign rem = items.size | modulo: 3 %}
+        {% assign spotlights = items | where: "spotlight", true %}
+        {% assign rest = items | where_exp: "item", "item.spotlight != true" %}
+        {% assign rem = rest.size | modulo: 3 %}
         <div class="cards">
-          {% for project in items %}
+          {% for project in spotlights %}
+            {% if spotlights.size == 2 %}
+              {% include project-card.html project=project wide="half" %}
+            {% else %}
+              {% include project-card.html project=project wide="full" %}
+            {% endif %}
+          {% endfor %}
+          {% for project in rest %}
             {% if forloop.first and rem == 1 %}
               {% include project-card.html project=project wide="full" %}
             {% elsif forloop.first and rem == 2 %}

@@ -396,12 +396,21 @@ a {
 }
 
 @media (min-width: 80rem) {
+  /* Six tracks: regular cards take two, so spotlight pairs can split a row. */
   .cards {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .card {
+    grid-column: span 2;
   }
 
   .card--wide-two {
-    grid-column: span 2;
+    grid-column: span 4;
+  }
+
+  .card--wide-half {
+    grid-column: span 3;
   }
 
   .card--wide-full {

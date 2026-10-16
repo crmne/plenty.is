@@ -2,6 +2,8 @@
 # Same fields as the `projects` list in paolino.me's _config.yml, so both sites
 # can read one file: name, link, image {path, width, height, alt, style,
 # position, background, dark}, category, description, featured.
+# plenty.is also reads `spotlight`: spotlighted projects open their group as
+# large cards, two to a row.
 # plenty.is shows the categories listed under `project_groups` in _config.yml.
 
 - name: Chat with Work
@@ -10,11 +12,13 @@
   category: Apps
   description: An AI assistant for your work, hosted in Europe. Connect your tools, pick up any chat on any device, and approve every change before it happens. Nothing to install.
   featured: true
+  spotlight: true
 - name: Solco
   link: https://getsolco.com
   image: {path: /assets/images/projects/solco.webp, width: 800, height: 420, alt: "Solco: Stop preparing your tracks, above an audio waveform", style: screenshot}
   category: Apps
   description: The DJ library app. Stop preparing your tracks. Solco grids, keys, sorts, and tags every download, then writes the USB your CDJs read. In private alpha.
+  spotlight: true
 - name: Spotifast
   link: https://spotifast.rocks
   image: {path: /assets/images/projects/spotifast.webp, width: 800, height: 500, alt: "Spotifast's music library and player", style: screenshot, position: "center top"}
@@ -196,6 +200,10 @@
   link: https://paolino.me/work-with-me/
   category: Work with me
   description: Carmine Paolino works with founders and teams on AI products, RubyLLM, and Rails applications, from architecture to shipping.
+- name: Founder Coaching
+  link: https://paolino.me/work-with-me/#founder-coaching
+  category: Work with me
+  description: Carmine Paolino, a second-time founder, coaches early-stage founders through the hard parts, from a fraying co-founder relationship to a decision they keep circling.
 - name: RubyLLM Workshops
   link: https://github.com/crmne/ruby_llm-workshop
   category: Work with me
