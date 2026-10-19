@@ -1,10 +1,10 @@
 ---
 layout: home
 title: Plenty
-description: "Plenty is Carmine Paolino's software company in Berlin. It makes AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
-social_title: "Plenty: software from Berlin by Carmine Paolino"
+description: "Plenty is Carmine Paolino's software company. It makes AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
+social_title: "Plenty: Software by Carmine Paolino"
 social_description: "Chat with Work, Solco, Spotifast, RubyLLM, ArchSpec, and more. AI products, Ruby frameworks, native desktop apps, and Linux tools from Plenty."
-lede: "Plenty is a one-person software company in Berlin, run by Carmine Paolino. It makes AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
+lede: "Plenty is a one-person software company, run by Carmine Paolino. It makes AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
 topics:
   - AI products
   - RubyLLM

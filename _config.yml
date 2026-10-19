@@ -1,5 +1,5 @@
 title: Plenty
-description: "Plenty is Carmine Paolino's software company in Berlin. It makes AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
+description: "Plenty is Carmine Paolino's software company. It makes AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
 url: "https://plenty.is"
 baseurl: ""
 lang: en
@@ -9,7 +9,7 @@ twitter_card: "summary_large_image"
 social_image: "/assets/images/plenty-og.png"
 social_image_width: 1200
 social_image_height: 630
-social_image_alt: "The Plenty wordmark and mark, with the line: software from Berlin, by Carmine Paolino."
+social_image_alt: "Plenty. Good enough isn’t Plenty. Software by Carmine Paolino."
 logo: "/assets/images/plenty-logo.png"
 markdown: kramdown
 
@@ -27,7 +27,7 @@ ai_visible_content:
     type: Organization
     id_slug: plenty
     name: "Plenty"
-    description: "Carmine Paolino's software company in Berlin, making AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
+    description: "Carmine Paolino's software company, making AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
     image: "/assets/images/plenty-logo.png"
     location:
       locality: "Berlin"
@@ -67,11 +67,11 @@ ai_visible_content:
   llms_txt:
     enabled: true
     title: "Plenty"
-    description: "Plenty is Carmine Paolino's software company in Berlin: AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
+    description: "Plenty is Carmine Paolino's software company: AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
     include_full_text: true
     sections:
       - heading: "What Plenty Does"
-        content: "Plenty is a one-person software company in Berlin run by Carmine Paolino. It makes AI products, Ruby frameworks, developer tools, native desktop apps written in Rust, Linux desktop tools, and DJ software, and offers AI and Ruby consulting, workshops, and talks."
+        content: "Plenty is a one-person software company run by Carmine Paolino. It makes AI products, Ruby frameworks, developer tools, native desktop apps written in Rust, Linux desktop tools, and DJ software, and offers AI and Ruby consulting, workshops, and talks."
       - heading: "Apps"
         content: |
           - Chat with Work: https://chatwithwork.com
