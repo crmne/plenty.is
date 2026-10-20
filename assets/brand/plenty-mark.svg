@@ -1,6 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-129 -974 1525 1525" role="img" aria-label="Plenty">
-  <style>.b{fill:#f4f0e6}.l{fill:#17150f}.d{fill:#c7361c}@media (prefers-color-scheme:dark){.b{fill:#121110}.l{fill:#f2ede2}.d{fill:#ff6a48}}</style>
-  <rect class="b" x="-129" y="-974" width="1525" height="1525" rx="335"/>
+  <!-- The "p." mark on its optically centred square canvas (commit 74b3248): the mark sits right of and below
+       the canvas centre so its visual weight, not its bounding box, is in the middle, and it clears a circle
+       inscribed in the canvas. bin/brand-assets derives every mark, avatar, and favicon from this file. -->
+  <style>.l{fill:#17150f}.d{fill:#c7361c}@media (prefers-color-scheme:dark){.l{fill:#f2ede2}.d{fill:#ff6a48}}</style>
   <path class="l" d="M159.11 -508.41H343.07V-360.81L335.51 -338.49V-194.85L343.07 -152.55V154.35H159.11ZM284.57 -251.01Q296.81 -334.17 333.98 -395.1Q371.15 -456.03 428.93 -489.6Q486.71 -523.17 558.89 -523.17Q634.67 -523.17 691.73 -489.15Q748.79 -455.13 780.92 -393.93Q813.05 -332.73 813.05 -251.01Q813.05 -170.19 780.92 -108.81Q748.79 -47.43 691.73 -13.41Q634.67 20.61 558.89 20.61Q486.17 20.61 428.84 -13.23Q371.51 -47.07 334.43 -108.18Q297.35 -169.29 284.57 -251.01ZM627.29 -251.01Q627.29 -289.35 611.54 -319.05Q595.79 -348.75 567.8 -365.67Q539.81 -382.59 503.45 -382.59Q466.55 -382.59 433.07 -365.67Q399.59 -348.75 374.57 -319.05Q349.55 -289.35 336.23 -251.01Q349.55 -212.67 374.57 -183.24Q399.59 -153.81 433.07 -136.89Q466.55 -119.97 503.45 -119.97Q539.81 -119.97 567.8 -136.89Q595.79 -153.81 611.54 -183.24Q627.29 -212.67 627.29 -251.01Z"/>
   <circle class="d" cx="1008.62" cy="-184.32" r="190.17"/>
 </svg>

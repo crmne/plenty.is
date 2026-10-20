@@ -2,9 +2,8 @@
   {% assign page_title = page.social_title | default: page.title | default: site.title %}
   {% assign page_description = page.social_description | default: page.description | default: site.description %}
   {% assign canonical_url = page.url | replace: 'index.html', '' | absolute_url %}
-  {% assign favicon_svg_path = '/assets/images/favicon.svg' %}
-  {% assign favicon_png_path = '/assets/images/plenty-logo.png' %}
-  {% assign default_social_image = '/assets/images/plenty-og.png' %}
+  {% assign favicon_svg_path = '/assets/brand/favicon/favicon.svg' %}
+  {% assign default_social_image = '/assets/brand/banners/og-default.png' %}
   {% assign social_image_path = page.social_image | default: site.social_image | default: default_social_image %}
   {% assign social_image_width = page.social_image_width | default: site.social_image_width %}
   {% assign social_image_height = page.social_image_height | default: site.social_image_height %}
@@ -25,13 +24,13 @@
   {% unless page.url == "/about/" %}
     <link rel="about" href="{{ '/about/' | absolute_url }}">
   {% endunless %}
+  <link rel="icon" href="{{ '/assets/brand/favicon/favicon.ico' | relative_url }}" sizes="48x48">
   <link rel="icon" type="image/svg+xml" href="{{ favicon_svg_path | relative_url }}">
-  <link rel="icon" type="image/png" sizes="512x512" href="{{ favicon_png_path | relative_url }}">
-  <link rel="apple-touch-icon" href="{{ '/assets/images/apple-touch-icon.png' | relative_url }}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{{ '/assets/brand/favicon/favicon-192.png' | relative_url }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/brand/favicon/apple-touch-icon.png' | relative_url }}">
   <meta name="theme-color" content="#f4f0e6" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#121110" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark">
-  <link rel="shortcut icon" href="{{ favicon_svg_path | relative_url }}">
 
   <meta property="og:locale" content="{{ site.og_locale | default: 'en_US' }}">
   <meta property="og:type" content="{{ og_type }}">

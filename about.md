@@ -58,6 +58,6 @@ Carmine Paolino offers [AI and Ruby consulting](https://paolino.me/work-with-me/
 
 ## Contact and press
 
-Write to [hello@plenty.is](mailto:hello@plenty.is). For press, the Plenty wordmark is available as [SVG](/assets/images/plenty-wordmark.svg), and the "p." mark as [SVG](/assets/images/plenty-mark.svg) and [PNG](/assets/images/plenty-logo.png).
+Write to [hello@plenty.is](mailto:hello@plenty.is). For press, the [brand assets](https://github.com/crmne/plenty.is/tree/main/assets/brand) include the Plenty wordmark in [SVG](/assets/brand/wordmark/plenty-wordmark-light.svg) and [PNG](/assets/brand/wordmark/plenty-wordmark-light-2048.png), and the "p." mark in [SVG](/assets/brand/mark/transparent/plenty-mark-light.svg) and [PNG](/assets/brand/mark/square/plenty-mark-light-1024.png), each also for dark backgrounds.
 
 PlentyLabs UG (haftungsbeschränkt) & Co. KG, Brunnenstraße 169, 10119 Berlin. See the [imprint](/imprint/).

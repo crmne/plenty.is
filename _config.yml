@@ -6,11 +6,11 @@ lang: en
 og_locale: "en_US"
 twitter_site: "@paolino"
 twitter_card: "summary_large_image"
-social_image: "/assets/images/plenty-og.png"
+social_image: "/assets/brand/banners/og-default.png"
 social_image_width: 1200
 social_image_height: 630
-social_image_alt: "Plenty. Good enough isn’t Plenty. Software by Carmine Paolino."
-logo: "/assets/images/plenty-logo.png"
+social_image_alt: "Plenty. Software by Carmine Paolino. Good enough isn’t Plenty. Fast, simple, and right in the details."
+logo: "/assets/brand/mark/square/plenty-mark-light-512.png"
 markdown: kramdown
 
 plugins:
@@ -28,7 +28,7 @@ ai_visible_content:
     id_slug: plenty
     name: "Plenty"
     description: "Carmine Paolino's software company, making AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
-    image: "/assets/images/plenty-logo.png"
+    image: "/assets/brand/mark/square/plenty-mark-light-512.png"
     location:
       locality: "Berlin"
       country: "DE"

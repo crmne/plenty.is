@@ -1,0 +1,398 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["playwright==1.55.0"]
+# ///
+"""Render Plenty's brand assets into assets/brand/.
+
+Every file comes from two masters, assets/brand/plenty-mark.svg (the optically centred "p." mark) and
+assets/brand/plenty-wordmark.svg, set in the site's own fonts (assets/fonts) and colours
+(assets/css/site.css). Headless Chromium draws them on the GPU, one at a time:
+
+    gpu-lock bin/brand-assets                 # everything
+    gpu-lock bin/brand-assets --only banners  # marks, wordmarks, favicons, or banners
+    gpu-lock bin/brand-assets --overlay DIR   # also write banners with their safe areas drawn, to look at
+
+Each banner is measured after it's drawn: the ink of its text and logo must sit inside the platform's safe
+area, and the headline must keep its lines, or the command fails. Set CHROMIUM to use another browser.
+"""
+import argparse
+import base64
+import os
+import re
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+from playwright.sync_api import sync_playwright
+
+ROOT = Path(__file__).resolve().parents[1]
+BRAND = ROOT / "assets/brand"
+FONTS = ROOT / "assets/fonts"
+
+# The site's tokens (assets/css/site.css). "light" is the mark for light backgrounds, "dark" for dark ones.
+PALETTES = {
+    "light": {"paper": "#f4f0e6", "ink": "#17150f", "quiet": "#5a5448", "accent": "#c7361c", "tile": "#e8e2d4", "line": "#d9d1c0"},
+    "dark": {"paper": "#121110", "ink": "#f2ede2", "quiet": "#a59d8e", "accent": "#ff6a48", "tile": "#23211d", "line": "#302d27"},
+}
+MARK_SIZES = [16, 32, 48, 64, 128, 180, 192, 256, 512, 1024]
+WORDMARK_WIDTHS = [1024, 2048]
+
+# The mark's square canvas, from plenty-mark.svg's viewBox.
+CANVAS = (-129, -974, 1525, 1525)
+
+# Banners. `safe` is where text and logo ink may go: clear of profile pictures that overlap the bottom left
+# (LinkedIn, X, Mastodon), of the crop YouTube applies on phones and TVs, and of Facebook's phone crop.
+# `brand` holds the wordmark, `hero` the headline. Boxes are in CSS pixels; `scales` renders 2x copies.
+def box(x, y, w, h):
+    return {"x": x, "y": y, "width": w, "height": h}
+
+BANNERS = {
+    # Link previews. Kept 72px clear left and right (some readers crop to 16:9) and 40px top and bottom.
+    "og-default": {
+        "size": (1200, 630), "scales": [1, 2], "kind": "card",
+        "safe": box(72, 40, 1056, 550),
+        "brand": box(80, 64, 300, 72),
+        "hero": box(80, 196, 780, 380),
+        "decor": box(912, 64, 208, 208),
+    },
+    # LinkedIn company page cover, the size LinkedIn asks for (4200x700, shown at 1128x191).
+    "linkedin-company-cover": {
+        "size": (4200, 700), "kind": "wide",
+        "safe": box(1050, 90, 2800, 520),
+        "brand": box(1120, 210, 1000, 280),
+        "hero": box(2300, 150, 1480, 400),
+    },
+    # LinkedIn company page banner at its displayed size. The logo overlaps the bottom left on phones.
+    "linkedin-page-banner": {
+        "size": (1128, 191), "kind": "wide",
+        "safe": box(282, 24, 760, 143),
+        "brand": box(300, 58, 250, 70),
+        "hero": box(610, 40, 420, 110),
+    },
+    # LinkedIn personal profile banner. The profile picture covers roughly the left 420px of the lower half.
+    "linkedin-profile-banner": {
+        "size": (1584, 396), "kind": "wide",
+        "safe": box(470, 40, 1074, 316),
+        "brand": box(500, 120, 380, 110),
+        "hero": box(960, 80, 560, 236),
+    },
+    # X header. The avatar overlaps the bottom left, and X crops the top and bottom on some screens.
+    "x-header": {
+        "size": (1500, 500), "kind": "wide",
+        "safe": box(400, 80, 1040, 300),
+        "brand": box(430, 160, 360, 110),
+        "hero": box(860, 110, 560, 240),
+    },
+    # Mastodon header (Mastodon asks for 1500x500). The avatar overlaps the bottom left.
+    "mastodon-header": {
+        "size": (1500, 500), "kind": "wide",
+        "safe": box(400, 80, 1040, 300),
+        "brand": box(430, 160, 360, 110),
+        "hero": box(860, 110, 560, 240),
+    },
+    # Facebook page cover, 851x315 on computers; phones show only the middle 640px, beside the picture's corner.
+    "facebook-cover": {
+        "size": (851, 315), "kind": "wide",
+        "safe": box(140, 40, 571, 235),
+        "brand": box(160, 122, 170, 56),
+        "hero": box(392, 84, 300, 146),
+    },
+    # YouTube channel banner. Only the middle 1546x423 shows everywhere (phones, computers, and TVs).
+    "youtube-channel-banner": {
+        "size": (2560, 1440), "kind": "wide",
+        "safe": box(507, 509, 1546, 423),
+        "brand": box(540, 600, 520, 160),
+        "hero": box(1120, 540, 900, 360),
+    },
+}
+
+HEADLINE = ("Good enough", "isn’t Plenty")
+QUIET = ("Fast, simple, and", "right in the details.")
+EYEBROW = "Software by Carmine Paolino"
+
+
+def master(name):
+    text = (BRAND / name).read_text()
+    viewbox = re.search(r'viewBox="([^"]+)"', text).group(1)
+    letters = re.findall(r'<path class="l" d="([^"]+)"', text)
+    dot = re.search(r'<circle class="d" ([^/]+)/>', text).group(1).strip()
+    return viewbox, letters, dot
+
+
+def mark_svg(palette, shape="transparent", adaptive=False):
+    """The mark on its square canvas: transparent, on a full square, on a circle, or on a rounded square."""
+    _, letters, dot = master("plenty-mark.svg")
+    x, y, w, h = CANVAS
+    light, dark = PALETTES["light"], PALETTES["dark"]
+    if adaptive:
+        style = (f"<style>.b{{fill:{light['paper']}}}.l{{fill:{light['ink']}}}.d{{fill:{light['accent']}}}"
+                 f"@media (prefers-color-scheme:dark){{.b{{fill:{dark['paper']}}}.l{{fill:{dark['ink']}}}.d{{fill:{dark['accent']}}}}}</style>")
+        b, l, d = 'class="b"', 'class="l"', 'class="d"'
+    else:
+        p = PALETTES[palette]
+        style = ""
+        b, l, d = f'fill="{p["paper"]}"', f'fill="{p["ink"]}"', f'fill="{p["accent"]}"'
+    background = {
+        "transparent": "",
+        "square": f'<rect {b} x="{x}" y="{y}" width="{w}" height="{h}"/>',
+        "circle": f'<circle {b} cx="{x + w / 2}" cy="{y + h / 2}" r="{w / 2}"/>',
+        "rounded": f'<rect {b} x="{x}" y="{y}" width="{w}" height="{h}" rx="335"/>',
+    }[shape]
+    paths = "".join(f'<path {l} d="{p}"/>' for p in letters)
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{x} {y} {w} {h}" role="img" aria-label="Plenty">'
+            f'{style}{background}{paths}<circle {d} {dot}/></svg>\n')
+
+
+def wordmark_svg(palette, attrs=""):
+    viewbox, letters, dot = master("plenty-wordmark.svg")
+    p = PALETTES[palette]
+    paths = "".join(f'<path fill="{p["ink"]}" d="{d}"/>' for d in letters)
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{viewbox}" role="img" aria-label="Plenty"{attrs}>'
+            f'{paths}<circle fill="{p["accent"]}" {dot}/></svg>\n')
+
+
+def font_face(family, file, weights):
+    data = base64.b64encode((FONTS / file).read_bytes()).decode()
+    return (f'@font-face{{font-family:"{family}";src:url(data:font/woff2;base64,{data}) format("woff2");'
+            f'font-weight:{weights};font-display:block}}')
+
+
+FONT_CSS = None
+
+
+def fonts():
+    global FONT_CSS
+    if FONT_CSS is None:
+        FONT_CSS = (font_face("Unbounded", "Unbounded-Variable.woff2", "200 900")
+                    + font_face("Geist", "Geist-Variable.woff2", "100 900")
+                    + font_face("Geist Mono", "GeistMono-Variable.woff2", "100 900"))
+    return FONT_CSS
+
+
+def document(body, width, height, background="transparent", css=""):
+    return (f'<!doctype html><html><head><meta charset="utf-8"><style>{fonts()}'
+            f'html,body{{margin:0;padding:0;width:{width}px;height:{height}px;overflow:hidden;background:{background}}}'
+            f'svg{{display:block}}{css}</style></head><body>{body}</body></html>')
+
+
+class Renderer:
+    def __init__(self, playwright):
+        executable = os.environ.get("CHROMIUM", "/usr/bin/chromium")
+        self.browser = playwright.chromium.launch(
+            executable_path=executable if Path(executable).exists() else None,
+            args=["--use-angle=gl-egl", "--use-gl=angle", "--enable-gpu", "--ignore-gpu-blocklist", "--force-color-profile=srgb"])
+        self.pages = {}
+        self.check_gpu()
+
+    def page(self, scale):
+        if scale not in self.pages:
+            self.pages[scale] = self.browser.new_page(device_scale_factor=scale, reduced_motion="reduce")
+        return self.pages[scale]
+
+    def check_gpu(self):
+        page = self.page(1)
+        page.set_content("<canvas></canvas>")
+        renderer = page.evaluate("""() => {
+          const gl = document.querySelector('canvas').getContext('webgl')
+          if (!gl) return 'no webgl'
+          const info = gl.getExtension('WEBGL_debug_renderer_info')
+          return info ? gl.getParameter(info.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER)
+        }""")
+        if re.search(r"swiftshader|llvmpipe|no webgl", renderer, re.I):
+            sys.exit(f"Chromium is rendering in software ({renderer}). Run it on the GPU: gpu-lock bin/brand-assets")
+        print(f"GPU: {renderer}")
+
+    def load(self, html, width, height, scale=1):
+        page = self.page(scale)
+        # Chromium stalls on screenshots of very small viewports, so small images are clipped from a larger one.
+        page.set_viewport_size({"width": max(width, 320), "height": max(height, 240)})
+        page.set_content(html)
+        page.evaluate("document.fonts.ready")
+        return page
+
+    def shoot(self, html, width, height, out, scale=1, transparent=True, prepare=None):
+        page = self.load(html, width, height, scale)
+        result = prepare(page) if prepare else None
+        out.parent.mkdir(parents=True, exist_ok=True)
+        page.screenshot(path=str(out), omit_background=transparent, clip={"x": 0, "y": 0, "width": width, "height": height})
+        return result
+
+
+def write(path, text):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text)
+
+
+def render_marks(r):
+    for shape in ["transparent", "square", "circle"]:
+        for palette in PALETTES:
+            svg = mark_svg(palette, shape)
+            write(BRAND / "mark" / shape / f"plenty-mark-{palette}.svg", svg)
+            for size in MARK_SIZES:
+                body = svg.replace("<svg ", f'<svg width="{size}" height="{size}" ', 1)
+                r.shoot(document(body, size, size), size, size, BRAND / "mark" / shape / f"plenty-mark-{palette}-{size}.png")
+    print("marks: 6 SVGs and", 6 * len(MARK_SIZES), "PNGs")
+
+
+def render_favicons(r):
+    folder = BRAND / "favicon"
+    write(folder / "favicon.svg", mark_svg("light", "rounded", adaptive=True))
+    rounded = mark_svg("light", "rounded")
+    with tempfile.TemporaryDirectory() as tmp:
+        icons = []
+        for size in [16, 32, 48]:
+            body = rounded.replace("<svg ", f'<svg width="{size}" height="{size}" ', 1)
+            icons.append(Path(tmp) / f"{size}.png")
+            r.shoot(document(body, size, size), size, size, icons[-1])
+        subprocess.run(["magick", *map(str, icons), str(folder / "favicon.ico")], check=True)
+    for size in [192, 512]:
+        body = rounded.replace("<svg ", f'<svg width="{size}" height="{size}" ', 1)
+        r.shoot(document(body, size, size), size, size, folder / f"favicon-{size}.png")
+    # iOS rounds the corners itself and shows transparency as black, so the touch icon is a full, opaque square.
+    square = mark_svg("light", "square").replace("<svg ", '<svg width="180" height="180" ', 1)
+    r.shoot(document(square, 180, 180, PALETTES["light"]["paper"]), 180, 180, folder / "apple-touch-icon.png", transparent=False)
+    print("favicons: favicon.svg, favicon.ico, 192, 512, apple-touch-icon")
+
+
+def render_wordmarks(r):
+    viewbox = [float(v) for v in master("plenty-wordmark.svg")[0].split()]
+    ratio = viewbox[3] / viewbox[2]
+    for palette, p in PALETTES.items():
+        svg = wordmark_svg(palette)
+        write(BRAND / "wordmark" / f"plenty-wordmark-{palette}.svg", svg)
+        for width in WORDMARK_WIDTHS:
+            height = round(width * ratio)
+            body = svg.replace("<svg ", f'<svg width="{width}" height="{height}" ', 1)
+            r.shoot(document(body, width, height), width, height, BRAND / "wordmark" / f"plenty-wordmark-{palette}-{width}.png")
+            # On the brand background, with clear space of half the wordmark's height on every side.
+            pad = round(height / 2)
+            framed_w, framed_h = width + 2 * pad, height + 2 * pad
+            body = f'<div style="padding:{pad}px">{body}</div>'
+            r.shoot(document(body, framed_w, framed_h, p["paper"]), framed_w, framed_h,
+                    BRAND / "wordmark" / f"plenty-wordmark-{palette}-background-{width}.png", transparent=False)
+    print("wordmarks: 2 SVGs and", 4 * len(WORDMARK_WIDTHS), "PNGs")
+
+
+BANNER_CSS = """
+.box{position:absolute;display:flex;flex-direction:column;justify-content:center}
+.brand svg{width:100%;height:100%}
+.hero{color:var(--ink)}
+.eyebrow{display:flex;align-items:center;gap:.7em;margin:0 0 1.1em;font:500 var(--eyebrow) "Geist Mono",monospace;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--quiet)}
+.eyebrow::before{content:"";width:.55em;height:.55em;border-radius:50%;background:var(--accent);flex:none}
+.headline{margin:0;font:700 var(--size)/1.04 "Unbounded",sans-serif;letter-spacing:-.03em;white-space:nowrap}
+.headline > span,.quiet > span{display:block}
+.dot{color:var(--accent)}
+.quiet{margin:.3em 0 0;font:500 calc(var(--size) * .52)/1.15 "Unbounded",sans-serif;letter-spacing:-.01em;color:var(--quiet);white-space:nowrap}
+.decor{position:absolute;display:grid;grid-template-columns:repeat(5,1fr);place-items:center}
+.decor i{display:block;width:62%;aspect-ratio:1;border-radius:50%;background:var(--line)}
+.decor i.on{background:var(--accent)}
+.overlay{position:absolute;outline:2px dashed #0a84ff;outline-offset:-1px}
+.overlay.box-outline{outline-color:rgba(10,132,255,.35)}
+"""
+
+
+def banner_html(name, spec, overlay=False):
+    p = PALETTES["light"]
+    width, height = spec["size"]
+    pos = lambda b: f'left:{b["x"]}px;top:{b["y"]}px;width:{b["width"]}px;height:{b["height"]}px'
+    brand = spec["brand"]
+    wordmark = wordmark_svg("light", ' preserveAspectRatio="xMinYMid meet"')
+    card = spec["kind"] == "card"
+    eyebrow = f'<p class="eyebrow" data-ink>{EYEBROW}</p>' if card else ""
+    headline = (f'<h1 class="headline" data-ink><span>{HEADLINE[0]}</span>'
+                f'<span>{HEADLINE[1]}<span class="dot">.</span></span></h1>')
+    hero = f'<div class="box hero" id="hero" style="{pos(spec["hero"])}">{eyebrow}{headline}<p class="quiet" data-ink><span>{QUIET[0]}</span><span>{QUIET[1]}</span></p></div>'
+    decor = ""
+    if "decor" in spec:
+        dots = "".join(f'<i class="{"on" if (row, col) == (2, 3) else ""}"></i>' for row in range(5) for col in range(5))
+        decor = f'<div class="decor" style="{pos(spec["decor"])}">{dots}</div>'
+    overlays = ""
+    if overlay:
+        overlays = "".join(f'<div class="overlay{"" if key == "safe" else " box-outline"}" style="{pos(spec[key])}"></div>'
+                           for key in ["safe", "brand", "hero"])
+    body = (f'<div class="box brand" id="brand" data-ink style="{pos(brand)}">{wordmark}</div>{hero}{decor}{overlays}')
+    css = BANNER_CSS + f":root{{--ink:{p['ink']};--quiet:{p['quiet']};--accent:{p['accent']};--line:{p['line']}}}"
+    return document(body, width, height, p["paper"], css)
+
+
+# Sizes the headline to the largest size whose block fits its box, then reports where every piece of ink is.
+FIT_AND_MEASURE = """() => {
+  const hero = document.getElementById('hero')
+  const headline = hero.querySelector('.headline')
+  const fits = (size) => {
+    hero.style.setProperty('--size', size + 'px')
+    hero.style.setProperty('--eyebrow', Math.max(12, size * 0.24) + 'px')
+    const content = [...hero.children].reduce((sum, el) => {
+      const style = getComputedStyle(el)
+      return sum + el.getBoundingClientRect().height + parseFloat(style.marginTop) + parseFloat(style.marginBottom)
+    }, 0)
+    const wide = Math.max(...[...hero.children].map((el) => el.scrollWidth))
+    return content <= hero.clientHeight && wide <= hero.clientWidth
+  }
+  let low = 4, high = 2000
+  while (high - low > 0.25) { const mid = (low + high) / 2; if (fits(mid)) low = mid; else high = mid }
+  fits(low)
+  const ink = (el) => {
+    if (el.id === 'brand') {
+      const rects = [...el.querySelectorAll('path,circle')].map((n) => n.getBoundingClientRect())
+      return union(rects)
+    }
+    const range = document.createRange(); range.selectNodeContents(el)
+    return union([...range.getClientRects()])
+  }
+  const union = (rects) => rects.reduce((u, r) => ({
+    left: Math.min(u.left, r.left), top: Math.min(u.top, r.top), right: Math.max(u.right, r.right), bottom: Math.max(u.bottom, r.bottom)
+  }), { left: Infinity, top: Infinity, right: -Infinity, bottom: -Infinity })
+  const lines = new Set([...headline.querySelectorAll(':scope > span')].map((s) => Math.round(s.getBoundingClientRect().top))).size
+  return {
+    size: low, lines,
+    ink: [...document.querySelectorAll('[data-ink]')].map((el) => ({ name: el.id || el.className, ...ink(el) }))
+  }
+}"""
+
+
+def render_banners(r, overlay_dir=None):
+    folder = BRAND / "banners"
+    failures = []
+    for name, spec in BANNERS.items():
+        width, height = spec["size"]
+        for scale in spec.get("scales", [1]):
+            out = folder / (f"{name}.png" if scale == 1 else f"{name}@{scale}x.png")
+            fit = lambda page: page.evaluate(FIT_AND_MEASURE)
+            result = r.shoot(banner_html(name, spec), width, height, out, scale, transparent=False, prepare=fit)
+            safe = spec["safe"]
+            for ink in result["ink"]:
+                inside = (ink["left"] >= safe["x"] and ink["top"] >= safe["y"]
+                          and ink["right"] <= safe["x"] + safe["width"] and ink["bottom"] <= safe["y"] + safe["height"])
+                if not inside:
+                    failures.append(f"{out.name}: {ink['name']} ink {ink} leaves the safe area {safe}")
+            if result["lines"] != 2:
+                failures.append(f"{out.name}: the headline took {result['lines']} lines, not 2")
+            print(f"{out.relative_to(ROOT)}: {width * scale}x{height * scale}, headline {result['size']:.0f}px")
+            if overlay_dir and scale == 1:
+                r.shoot(banner_html(name, spec, overlay=True), width, height, Path(overlay_dir) / f"{name}.png",
+                        transparent=False, prepare=fit)
+    if failures:
+        sys.exit("\n".join(failures))
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--only", choices=["marks", "favicons", "wordmarks", "banners"], action="append")
+    parser.add_argument("--overlay", metavar="DIR", help="also write each banner with its safe area drawn, into DIR")
+    args = parser.parse_args()
+    steps = args.only or ["marks", "favicons", "wordmarks", "banners"]
+    with sync_playwright() as playwright:
+        r = Renderer(playwright)
+        if "marks" in steps: render_marks(r)
+        if "favicons" in steps: render_favicons(r)
+        if "wordmarks" in steps: render_wordmarks(r)
+        if "banners" in steps: render_banners(r, args.overlay)
+        r.browser.close()
+
+
+if __name__ == "__main__":
+    main()
