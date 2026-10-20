@@ -131,7 +131,7 @@ ai_visible_content:
       chat-with-work:
         name: "Chat with Work"
         url: "https://chatwithwork.com"
-        description: "Private AI search across your connected work tools."
+        description: "Your work agent, hosted in the EU, not on your laptop."
       rubyllm:
         name: "RubyLLM"
         url: "https://rubyllm.com"
