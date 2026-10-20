@@ -95,7 +95,7 @@ ai_visible_content:
           - Copilot Triage: https://github.com/marketplace/actions/copilot-triage
       - heading: "Omarchy plugins"
         content: |
-          - OmaCal: https://github.com/crmne/omacal
+          - Calendar for Omarchy: https://github.com/crmne/omarchy-calendar
           - Files for Omarchy: https://github.com/crmne/omarchy-files
           - MOZA for Omarchy: https://github.com/crmne/omarchy-moza
           - OmaStats: https://github.com/crmne/omastats
