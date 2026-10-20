@@ -841,6 +841,12 @@ a {
   font-weight: 600;
 }
 
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  overflow-wrap: anywhere;
+}
+
 .portrait {
   width: 9rem;
   height: 9rem;
