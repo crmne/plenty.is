@@ -1,5 +1,6 @@
 ---
 layout: home
+last_modified_from: [_data/projects.yml]
 title: Plenty
 description: "Plenty is Carmine Paolino's software company. It makes AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
 social_title: "Plenty: Software by Carmine Paolino"
