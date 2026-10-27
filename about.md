@@ -25,7 +25,7 @@ Plenty is a one-person software company, run by Carmine Paolino. It makes AI pro
 
 ## What Plenty makes
 
-**Apps** for work, music, and health: [Chat with Work](https://chatwithwork.com), private AI search across your work tools; [Solco](https://getsolco.com), a DJ library app in private alpha; [Spotifast](https://spotifast.rocks) and [ZapFast](https://zapfast.rocks), native Spotify and WhatsApp clients for Linux, macOS, and Windows; [TonePush](https://tonepush.rocks), guitar tones for your pedal; and [Cluster Headache Tracker](https://clusterheadachetracker.com).
+**Apps** for work, music, and health: [Chat with Work](https://chatwithwork.com), AI bots in Europe that work across your team's tools while you decide; [Solco](https://getsolco.com), a DJ library app in private alpha; [Spotifast](https://spotifast.rocks) and [ZapFast](https://zapfast.rocks), native Spotify and WhatsApp clients for Linux, macOS, and Windows; [TonePush](https://tonepush.rocks), guitar tones for your pedal; and [Cluster Headache Tracker](https://clusterheadachetracker.com).
 
 **Libraries and developer tools**, all open source: [RubyLLM](https://rubyllm.com), a Ruby framework for AI applications; [ArchSpec](https://archspecrb.dev), executable architecture rules for Ruby and Rails; [Schematist](https://github.com/crmne/schematist), [Kamal Backup](https://kamal-backup.dev), [Jekyll VitePress](https://jekyll-vitepress.dev), [hyprmoncfg](https://hyprmoncfg.dev), [native-packages](https://native-packages.dev), [fastframe](https://fastframe.dev), and [Copilot Triage](https://github.com/marketplace/actions/copilot-triage).
 
