@@ -1,5 +1,8 @@
 <head>
   {% assign page_title = page.social_title | default: page.title | default: site.title %}
+  {% unless page_title contains site.title %}
+    {% assign page_title = page_title | append: " | " | append: site.title %}
+  {% endunless %}
   {% assign page_description = page.social_description | default: page.description | default: site.description %}
   {% assign canonical_url = page.url | replace: 'index.html', '' | absolute_url %}
   {% assign favicon_svg_path = '/assets/brand/favicon/favicon.svg' %}
@@ -21,6 +24,9 @@
   <title>{{ page_title }}</title>
   <meta name="description" content="{{ page_description }}">
   <link rel="canonical" href="{{ canonical_url }}">
+  {% if page.robots %}
+    <meta name="robots" content="{{ page.robots }}">
+  {% endif %}
   {% unless page.url == "/about/" %}
     <link rel="about" href="{{ '/about/' | absolute_url }}">
   {% endunless %}
@@ -86,6 +92,13 @@
           "@type": "ImageObject",
           "url": {{ entity_image_url | jsonify }}
         },
+        "legalName": "PlentyLabs UG (haftungsbeschränkt) & Co. KG",
+        "email": "hello@plenty.is",
+        "founder": {
+          "@type": "Person",
+          "name": "Carmine Paolino",
+          "url": "https://paolino.me"
+        },
         "description": {{ entity.description | default: site.description | jsonify }},
         "address": {
           "@type": "PostalAddress",
@@ -93,6 +106,16 @@
           "addressCountry": {{ entity.location.country | jsonify }}
         },
         "sameAs": {{ entity.same_as | jsonify }}
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": {{ site.url | append: "/#website" | jsonify }},
+        "name": {{ site.title | jsonify }},
+        "url": {{ site.url | append: "/" | jsonify }},
+        "publisher": { "@id": {{ site.url | append: "/#" | append: site.ai_visible_content.entity.id_slug | jsonify }} }
       }
     </script>
     <script type="application/ld+json">
