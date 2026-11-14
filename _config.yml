@@ -184,6 +184,17 @@ ai_visible_content:
     verbose: false
     max_examples: 3
 
+# Every page's title, description and structured data are written in
+# _includes/head.html, so a change there changes every page: the sitemap's
+# <lastmod> (_plugins/git_last_modified.rb) counts it too. A page that names
+# its own last_modified_from replaces this list, so it names head.html again.
+defaults:
+  - scope:
+      path: ""
+    values:
+      last_modified_from:
+        - _includes/head.html
+
 exclude:
   - README.md
   - assets/images/projects/README.md
