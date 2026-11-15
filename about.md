@@ -1,7 +1,8 @@
 ---
 layout: page
 title: About Plenty
-description: "Plenty is Carmine Paolino's software company. It makes AI products, Ruby frameworks, developer tools, native desktop apps, Linux desktop tools, and DJ software."
+social_title: "About Plenty: Carmine Paolino's Software Company in Berlin"
+description: "Plenty is Carmine Paolino's software company in Berlin, making AI products, Ruby frameworks, developer tools, native desktop apps, Linux tools, and DJ software."
 permalink: /about/
 entity_type: Organization
 topics:
